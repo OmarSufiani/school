@@ -1,0 +1,140 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and page layout */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background-color: #f4f4f9;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar h3 {
+    font-size: 24px;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+}
+
+.sidebar ul li a:hover {
+    background-color: #555;
+}
+
+/* Main content area */
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 20px;
+}
+
+/* Top bar styles */
+.top-bar {
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.top-bar-left {
+    font-size: 18px;
+}
+
+.top-bar-right {
+    font-size: 16px;
+}
+
+/* Page content */
+.page-content {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.page-content h1 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.page-content p {
+    font-size: 16px;
+    color: #333;
+}
+
+
+/* Custom styles for header, footer, and layout adjustments */
+
+/* Make the footer stick to the bottom */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* Adjust body spacing */
+body {
+    padding-bottom: 60px; /* Ensure content does not get hidden behind the footer */
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+/* Header Styling */
+header {
+    margin-bottom: 20px;
+}
+
+.navbar {
+    border-bottom: 2px solid #ddd;
+}
+
+.nav-link {
+    color: #333 !important;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+}
