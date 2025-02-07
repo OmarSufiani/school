@@ -16,16 +16,17 @@ if (isset($_SESSION['user_id'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include('db_config.php');
 
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE username='$username'";
+    $sql = "SELECT * FROM users WHERE email='$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
-            $_SESSION['user_id'] = $row['id']; // Store user id in session
+            $_SESSION['user_id'] = $row['id']; 
+            $_SESSION['username'] = $row['username']; // Store user id in session
             header("Location: homepage.php");
             exit();
         } else {
@@ -59,10 +60,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
+    background-image: url('images/admin.jpg');
     display: flex;
+    
+    background-position: center;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    
 }
 
 /* Login container */
@@ -147,8 +152,8 @@ input[type="submit"]:hover {
     <div class="login-container">
         <form method="post" action="" class="login-form">
             <h2>Login</h2>
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" required><br>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required><br>
             
             <label for="password">Password:</label>
             <input type="password" name="password" id="password" required><br>

@@ -1,103 +1,100 @@
 <?php
-include('db_config.php');
-?>
 
+
+
+include('db_config.php');
+if (isset($_SESSION['username'])) {
+    $username = $_SESSION['username'];
+} else {
+    $username = 'Guest'; // Default for when the user is not logged in
+}
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Management System Dashboard</title>
+    <title>School Management System</title>
     <style>
-        /* Basic styling */
+        /* Basic styling for the header */
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
         }
-        
+
         .header {
-            background-color: #4CAF50;
+            background-color:rgb(63, 64, 99);
             color: white;
             padding: 15px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            margin: 0;
-        }
-
-        /* Navigation bar */
-        .nav-bar {
             display: flex;
-            justify-content: flex-end;
-            background-color: #333;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .nav-bar a {
-            padding: 14px 20px;
-            text-decoration: none;
-            color: white;
-            text-align: center;
-            font-size: 18px;
+        .logo {
+            font-size: 24px;
         }
 
-        .nav-bar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-
-        /* Profile dropdown */
-        .profile {
+        .profile-dropdown {
             position: relative;
             display: inline-block;
         }
 
-        .profile-dropdown {
-            display: none;
-            position: absolute;
-            background-color: #333;
-            min-width: 160px;
-            z-index: 1;
+        .profile-btn {
+            background-color: rgb(63, 64, 99);
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
         }
 
-        .profile:hover .profile-dropdown {
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            right: 0;
+            padding: 10px;
+        }
+
+        .profile-dropdown:hover .dropdown-content {
             display: block;
         }
 
-        .profile-dropdown a {
-            color: white;
+        .dropdown-content a {
+            color: black;
             padding: 12px 16px;
             text-decoration: none;
             display: block;
         }
 
-        .profile-dropdown a:hover {
-            background-color: #ddd;
-            color: black;
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
         }
     </style>
 </head>
 <body>
-
-<!-- Header -->
-<div class="header">
-    <h1>School Management System</h1>
-</div>
-
-<!-- Navigation Bar -->
-<div class="nav-bar">
-    <div class="profile">
-        <!-- Display the username if logged in -->
-        <?php if (isset($_SESSION['username'])): ?>
-            <a href="javascript:void(0)" class="profile-link"><?php echo $_SESSION['username']; ?></a>
-            <div class="profile-dropdown">
-                <a href="profile.php">Profile</a>
+    <header class="header">
+        <div class="logo">School Management System</div>
+        
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown">
+            <button class="profile-btn">Hello, <?php echo ($username); ?></button>
+            <div class="dropdown-content">
+                <a href="#">My Profile</a>
+                <a href="#">Settings</a>
                 <a href="logout.php">Logout</a>
             </div>
-        <?php else: ?>
-            <a href="login.php">Login</a>
-        <?php endif; ?>
-    </div>
-</div>
+        </div>
+    </header>
 
 </body>
 </html>

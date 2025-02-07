@@ -103,7 +103,7 @@ body {
             <button id="toggle-btn" onclick="toggleSidebar()">☰</button>
             <div id="sidebar-content">
                 <div class="dropdown">
-                    <button class="dropbtn" onclick="toggleDropdown('menu1')">Menu 1 ▼</button>
+                    <button class="dropbtn" onclick="toggleDropdown('menu1')">Menu</button>
                     <div id="menu1" class="dropdown-content">
                         <a href="#">Item 1.1</a>
                         <a href="#">Item 1.2</a>
