@@ -46,122 +46,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="style.css">
-<style>
-    /* Style the form container */
-    /* Resetting basic styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
 
-/* Body and background */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    background-image: url('images/admin.jpg');
-    display: flex;
-    
-    background-position: center;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    
-}
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
 
-/* Login container */
-.login-container {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
+        h2 {
+            margin-bottom: 20px;
+            color:blue;
+        }
 
-/* Form title */
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-}
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-/* Label styles */
-label {
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-    color: #333;
-}
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
 
-/* Input fields */
-input[type="text"],
-input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-}
+        input[type="submit"] {
+            background-color:blue;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-/* Submit button */
-input[type="submit"] {
-    background-color: #007bff;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100%;
-}
+        input[type="submit"]:hover {
+            background-color: blue;
+        }
 
-input[type="submit"]:hover {
-    background-color: #0056b3;
-}
+        .form-container a {
+            text-decoration: none;
+            color:blue;
+            font-size: 14px;
+            margin-top: 10px;
+        }
 
-/* Register link */
-.register-link {
-    text-align: center;
-    margin-top: 20px;
-}
+        .form-container a:hover {
+            text-decoration: underline;
+        }
 
-.register-link a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.register-link a:hover {
-    text-decoration: underline;
-}
-
-</style>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
-    <link rel="stylesheet" href="styles.css">
+    </style>
 </head>
 <body>
-    <div class="login-container">
-        <form method="post" action="" class="login-form">
-            <h2>Login</h2>
-            <label for="email">Email:</label>
-            <input type="email" name="email" id="email" required><br>
+
+    <div class="form-container">
+        <h2>Login</h2>
+        <form method="post" action="">
+           
+            Email: <input type="email" name="email" required><br>
+            Password: <input type="password" name="password" required><br>
+            <input type="submit" value="Login">
+             Dont have account? <a href="register.php">Register</a>
+
             
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required><br>
-            
-            <input type="submit" value="Login" class="login-btn">
-            
-            <p class="register-link">Don't have an account? <a href="Register.php">Register here</a></p>
         </form>
     </div>
+
 </body>
 </html>
+

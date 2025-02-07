@@ -125,8 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" name="name" id="editName" required><br>
             <label for="email">Email:</label>
             <input type="email" name="email" id="editEmail" required><br>
-            <label for="phone">Phone:</label>
-            <input type="text" name="phone" id="editPhone" required><br>
+           
             <button type="submit" name="edit">Save</button>
             <button type="button" onclick="closeEditForm()">Cancel</button>
         </form>
