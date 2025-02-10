@@ -1,6 +1,8 @@
 <?php
 session_start();
-include('header.php');
+
+
+
 include('db_config.php');
 
 
@@ -45,28 +47,33 @@ $users = $result_users->fetch_assoc()['user_count'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+   <?php include('header.php');?>
+   
+   
     <style>
         /* Basic styling for the dashboard */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+        .main-content {
+        margin-left: 250px; /* Ensure the content doesn't overlap the sidebar */
+        padding: 20px;
+        margin-top: 80px; /* Adjust for the fixed header */
+    }
 
         .dashboard {
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-end;
             padding: 20px;
+            left:251px;
         }
 
         .box {
             background-color: #4CAF50;
             color: white;
             padding: 30px;
+            left:0;
             border-radius: 10px;
             text-align: center;
-            width: 200px;
+            width: 170px;
             margin: 10px;
         }
 
@@ -87,7 +94,7 @@ $users = $result_users->fetch_assoc()['user_count'];
             padding: 30px;
             border-radius: 10px;
             text-align: center;
-            width: 200px;
+            width: 170px;
             margin: 10px;
         }
 
@@ -107,7 +114,7 @@ $users = $result_users->fetch_assoc()['user_count'];
             padding: 30px;
             border-radius: 10px;
             text-align: center;
-            width: 200px;
+            width: 170px;
             margin: 10px;
         }
 
@@ -127,7 +134,7 @@ $users = $result_users->fetch_assoc()['user_count'];
             padding: 30px;
             border-radius: 10px;
             text-align: center;
-            width: 200px;
+            width: 170px;
             margin: 10px;
         }
 
@@ -149,7 +156,7 @@ $users = $result_users->fetch_assoc()['user_count'];
 
     </head>
 <body>
-
+<?php include('sidebar2.php');?>
     <div class="dashboard">
         <div class="box">
             <h3>Students</h3>

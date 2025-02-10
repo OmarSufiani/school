@@ -46,11 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+   
     <style>
         /* General Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
+            background:Url("./images/admin.jpg");
             margin: 0;
             padding: 0;
             display: flex;
@@ -125,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Email: <input type="email" name="email" required><br>
             Password: <input type="password" name="password" required><br>
             <input type="submit" value="Login">
-             Dont have account? <a href="register.php">Register</a>
+           
 
             
         </form>

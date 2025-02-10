@@ -1,6 +1,7 @@
 <?php
+session_start();
 include('db_config.php');
-
+include('header.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
@@ -9,7 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
 
     if ($conn->query($sql) === TRUE) {
-        header("Location: login.php");
+    
+        header("Location: register.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
@@ -102,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Email: <input type="email" name="email" required><br>
             Password: <input type="password" name="password" required><br>
             <input type="submit" value="Register"><br>
-            Already have account? <a href="Login.php">Login</a>
+            Already have account? <a href="homepage.php">Go back </a>
 
 
         </form>

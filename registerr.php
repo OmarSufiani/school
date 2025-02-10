@@ -1,6 +1,8 @@
 <?php
 // Start the session if you plan to use session data (optional)
 session_start();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

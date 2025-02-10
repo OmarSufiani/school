@@ -1,9 +1,11 @@
 <?php
+
+session_start();
 // Database connection
 include('db_config.php');
 
 // Create connection
-
+include('header.php');
 
 // Fetch all users from the database
 $sql = "SELECT * FROM users";
@@ -16,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $id = $_POST['id'];
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $phone = $_POST['phone'];
+     
 
-        $update_sql = "UPDATE users SET name='$name', email='$email', phone='$phone' WHERE id=$id";
+        $update_sql = "UPDATE users SET name='$name', email='$email',  WHERE id=$id";
         $conn->query($update_sql);
     } elseif (isset($_POST['delete'])) {
         // Delete record
@@ -113,13 +115,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </td>
                 </tr>
             <?php endwhile; ?>
+
+            <a href="homepage.php"><b>HOME</b></a>
         </tbody>
     </table>
 
     <!-- Edit Form -->
     <div id="editForm">
         <h2>Edit User</h2>
-        <form id="editUserForm" method="POST">
+        <form id="editUserForm" method="POST" action="" >
             <input type="hidden" name="id" id="editId">
             <label for="name">Name:</label>
             <input type="text" name="name" id="editName" required><br>
