@@ -147,7 +147,7 @@
                 <li><a href="#">Non-Teaching Staff</a></li>
             </ul>
         </li>
-        <li><a href="#"><i class="fas fa-comments"></i> Communications</a></li>
+        <li><a href="upload.php"><i class="fas fa-comments"></i> Communications</a></li>
         <li><a href="user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
 
         <li><a href="#"><i class="fas fa-credit-card"></i> Accounts</a></li>

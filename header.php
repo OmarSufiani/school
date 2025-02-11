@@ -72,13 +72,16 @@ if (isset($_SESSION['username'])) {
         background-color: #f1f1f1;
     }
 </style>
-
 <header class="header">
     <div class="logo">School Management System</div>
     
     <!-- Profile Dropdown -->
     <div class="profile-dropdown">
-        <button class="profile-btn">Hello, <?php echo ($username); ?></button>
+        <!-- Profile button with image and username -->
+        <button class="profile-btn">
+            <img src="path/to/profile-icon.jpg"  class="profile-icon"> 
+            Hello, <?php echo ($username); ?>
+        </button>
         <div class="dropdown-content">
             <a href="#">My Profile</a>
             <a href="#">Settings</a>
