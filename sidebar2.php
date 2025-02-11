@@ -118,9 +118,7 @@
 
 <!-- Sidebar -->
 <div class="sidebar">
-    <div class="sidebar-header">
-        <h3>Dashboard</h3>
-    </div>
+    
     <ul>
         <li><a href="homepage.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
 
@@ -151,7 +149,7 @@
         <li><a href="user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
 
         <li><a href="#"><i class="fas fa-credit-card"></i> Accounts</a></li>
-        <li><a href="#"><i class="fas fa-cogs"></i> Resources</a></li>
+        <li><a href="download.php"><i class="fas fa-cogs"></i> Resources</a></li>
         <li><a href="edit.php"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
         <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
         <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>

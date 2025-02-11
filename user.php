@@ -60,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin: 40px auto;
             background-color: #fff;
             padding: 30px;
+            margin-top: 90px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -135,7 +136,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="container">
         <h2>Add User</h2>
+
+        
         <form action="" method="POST"> 
+        <?php if (!empty($errorMessage)) { ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $errorMessage; ?>
+        </div>
+    <?php } ?>
+
+    <!-- Display Success Message if File is Uploaded Successfully -->
+    <?php if (isset($successMessage)) { ?>
+        <div class="alert alert-success" role="alert">
+            <?php echo $successMessage; ?>
+        </div>
+    <?php } ?>
             <div class="form-group">
                 <label for="name">Full Name:</label>
                 <input type="text" id="name" name="username" required placeholder="Enter full name">
