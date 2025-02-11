@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2025 at 01:09 PM
+-- Generation Time: Feb 10, 2025 at 07:50 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -57,11 +57,32 @@ CREATE TABLE `accounts` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `role` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `role`) VALUES
+(2, 'admin'),
+(3, 'editor'),
+(1, 'user');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `students`
 --
 
 CREATE TABLE `students` (
   `student_id` int(11) NOT NULL,
+  `reg_no` varchar(250) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `date_of_birth` date NOT NULL,
@@ -120,16 +141,19 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `role` enum('supperAdmin','admin','staff','student') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES
-(2, 'Sufiani', 'hommiedelaco@gmail.com', '$2y$10$ggRSWHeoShv0ED6zh2QtPuQjyvcNH19KGfWsxod9JDPoqr/mJP0mW'),
-(5, 'omar', 'ochangu@gmail.com', '$2y$10$pdrPuePfxN18I7JU5wq9JejL19T8uU3Uru79LocwPM00VGh5CNSNG');
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `role`) VALUES
+(9, 'Sufiani', 'hommiedelaco@gmail.com', '$2y$10$FYBuCl5pLzh9FXphxRIVOOccREBBuAGxRSnZ39W2I48Lss1VSZZNW', 'supperAdmin'),
+(10, 'vincent ', 'vinny@gmail.com', '$2y$10$l.Q/WOe8T7aDscN2GLFO5.HxNFtH3IIQvWTnzOClcE9CDgVphNsGW', 'supperAdmin'),
+(13, 'suleiman', 'mohamedrajab0000@gmail.com', '$2y$10$3qPRLIgTuhfRu.Rb5u0nHOPv.3Fzgqn.e5qr3ffzE69GaDiNuCs7m', 'supperAdmin'),
+(15, 'saidi hamisi', 'saidi@kpa.co.ke', '$2y$10$R2.oWBuu4CXS.PRAil38PeYCRO3pPn2QwmfZ6c/2ACnkLKR9hDt2a', 'staff');
 
 --
 -- Indexes for dumped tables
@@ -150,12 +174,20 @@ ALTER TABLE `accounts`
   ADD UNIQUE KEY `username` (`username`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `role` (`role`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
   ADD PRIMARY KEY (`student_id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `students_ibfk_1` (`unit_id`);
+  ADD KEY `students_ibfk_1` (`unit_id`),
+  ADD KEY `reg_no` (`reg_no`);
 
 --
 -- Indexes for table `teachers`
@@ -195,6 +227,12 @@ ALTER TABLE `accounts`
   MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
@@ -216,7 +254,7 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
@@ -244,7 +282,7 @@ ALTER TABLE `students`
 -- Constraints for table `teachers`
 --
 ALTER TABLE `teachers`
-  ADD CONSTRAINT `teachers_ibfk_1` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `teachers_ibfk_1` FOREIGN KEY (`email`) REFERENCES `users` (`email`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 include('db_config.php');
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];

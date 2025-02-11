@@ -122,14 +122,24 @@
         <h3>Dashboard</h3>
     </div>
     <ul>
-        <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="homepage.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+
         <li>
-            <a href="javascript:void(0)" onclick="toggleDropdown('students')"><i class="fas fa-user-graduate"></i> Students <i class="fas fa-chevron-down"></i></a>
-            <ul class="dropdown-menu" id="students">
-                <li><a href="#">Student List</a></li>
-                <li><a href="#">Student Registration</a></li>
+    <a href="javascript:void(0)" onclick="toggleDropdown('regulations')"><i class="fas fa-gavel"></i> Regulations <i class="fas fa-chevron-down"></i></a>
+    <ul class="dropdown-menu" id="regulations">
+        <li><a href="#">School Rules</a></li>
+        <li><a href="#">TSC Rules</a></li>
+        <li><a href="#">PTA/BOM Regulations</a></li>
+    </ul>
+</li>
+<li>
+            <a href="javascript:void(0)" onclick="toggleDropdown('accounts')"><i class="fas fa-credit-card"></i> Accounts <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu" id="accounts">
+                <li><a href="#">Student Areas</a></li>
+                <li><a href="#">Account Balance</a></li>
             </ul>
         </li>
+        <li><a href="#"><i class="fas fa-user-graduate"></i> Students</a></li>
         <li>
             <a href="javascript:void(0)" onclick="toggleDropdown('personnel')"><i class="fas fa-users"></i> Personnel <i class="fas fa-chevron-down"></i></a>
             <ul class="dropdown-menu" id="personnel">
@@ -138,7 +148,7 @@
             </ul>
         </li>
         <li><a href="#"><i class="fas fa-comments"></i> Communications</a></li>
-        <li><a href="Register.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
+        <li><a href="user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
 
         <li><a href="#"><i class="fas fa-credit-card"></i> Accounts</a></li>
         <li><a href="#"><i class="fas fa-cogs"></i> Resources</a></li>
