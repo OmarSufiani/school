@@ -2,10 +2,10 @@
 
 session_start();
 include('db_config.php');
-if (isset($_SESSION['username'])) {
-    $username = $_SESSION['username'];
+if (isset($_SESSION['first_name'])) {
+    $first_name = $_SESSION['first_name'];
 } else {
-    $username = 'Guest'; // Default for when the user is not logged in
+    $firstname = 'Guest'; // Default for when the user is not logged in
 }
 ?>
 
@@ -79,8 +79,8 @@ if (isset($_SESSION['username'])) {
     <div class="profile-dropdown">
         <!-- Profile button with image and username -->
         <button class="profile-btn">
-            <img src="path/to/profile-icon.jpg"  class="profile-icon"> 
-            Hello, <?php echo ($username); ?>
+            <img src="#"  class="profile-icon"> 
+            Hello, <?php echo ($first_name); ?>
         </button>
         <div class="dropdown-content">
             <a href="#">My Profile</a>

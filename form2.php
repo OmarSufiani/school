@@ -1,5 +1,5 @@
 <?php 
-
+include('db_config.php');
 // Get the registration number (regno) from the URL parameter
 $regno = $_GET['regno'];
 

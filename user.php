@@ -6,7 +6,8 @@ include('header.php');
 include('sidebar2.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
-    $username = $_POST['username'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
     $email = $_POST['email'];
     $role = $_POST['role'];
     $password = $_POST['password'];
@@ -25,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
 
     // SQL query to insert the new user into the database
-    $sql = "INSERT INTO users (username, email, role, password) VALUES ('$username', '$email', '$role', '$hashed_password')";
+    $sql = "INSERT INTO users (first_name, last_name,email, role, password) VALUES ('$first_name','$last_name', '$email', '$role', '$hashed_password')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New user added successfully!";
@@ -152,8 +153,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     <?php } ?>
             <div class="form-group">
-                <label for="name">Full Name:</label>
-                <input type="text" id="name" name="username" required placeholder="Enter full name">
+                <label for="name">First Name:</label>
+                <input type="text" id="name" name="first_name" required placeholder="Enter first name">
+            </div>
+            <div class="form-group">
+                <label for="name">Last Name:</label>
+                <input type="text" id="name" name="last_name" required placeholder="Enter last name">
             </div>
 
             <div class="form-group">
@@ -168,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="supperAdmin">SupperAdmin</option>
                     <option value="admin">Admin</option>
                     <option value="staff">Staff</option>
-                    <option value="parent">Parent</option>
+                    <option value="student">Student</option>
                 </select>
             </div>
 
@@ -187,9 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
 
-        <div class="form-footer">
-            <a href="dashboard.html">Back to Dashboard</a>
-        </div>
+       
     </div>
 
 </body>

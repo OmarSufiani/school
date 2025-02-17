@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = $result->fetch_assoc();
         if (password_verify($password, $row['password'])) {
             $_SESSION['user_id'] = $row['id']; 
-            $_SESSION['username'] = $row['username']; // Store user id in session
+            $_SESSION['first_name'] = $row['first_name']; // Store user id in session
             header("Location: homepage.php");
             exit();
         } else {
@@ -120,18 +120,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-    <div class="form-container">
-        <h2>Login</h2>
-        <form method="post" action="">
-           
-            Email: <input type="email" name="email" required><br>
-            Password: <input type="password" name="password" required><br>
-            <input type="submit" value="Login">
-           
-
-            
-        </form>
-    </div>
+<div class="form-container">
+    <h2>Login</h2>
+    <form method="post" action="">
+        Email: <input type="email" name="email" required placeholder="Enter your email"><br>
+        Password: <input type="password" name="password" required placeholder="Enter your password"><br>
+        <input type="submit" value="Login">
+    </form>
+</div>
 
 </body>
 </html>
