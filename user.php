@@ -1,9 +1,10 @@
 <?php
-
-
 include('db_config.php');
 include('header.php');
 include('sidebar2.php');
+
+$errorMessage = ''; // Variable to store validation error messages
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Collect form data
     $first_name = $_POST['first_name'];
@@ -13,33 +14,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Validate password match
-    if ($password !== $confirm_password) {
-        echo "Passwords do not match!";
-        exit;
+    // Form Validation
+    if (empty($first_name) || empty($last_name) || empty($email) || empty($role) || empty($password) || empty($confirm_password)) {
+        $errorMessage = 'All fields are required!';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errorMessage = 'Invalid email format!';
+    } elseif ($password !== $confirm_password) {
+        $errorMessage = 'Passwords do not match!';
+    } elseif (strlen($password) < 6) { // Password strength validation (minimum 6 characters)
+        $errorMessage = 'Password should be at least 6 characters!';
     }
 
-    // Hash password before storing it
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Proceed if no validation errors
+    if (empty($errorMessage)) {
+        // Hash password before storing it
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Database connection (replace with your database credentials)
-  
+        // SQL query to insert the new user into the database
+        $sql = "INSERT INTO users (first_name, last_name, email, role, password) 
+                VALUES ('$first_name', '$last_name', '$email', '$role', '$hashed_password')";
 
-    // SQL query to insert the new user into the database
-    $sql = "INSERT INTO users (first_name, last_name,email, role, password) VALUES ('$first_name','$last_name', '$email', '$role', '$hashed_password')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "New user added successfully!";
-        // Optionally, redirect to another page after success
-       
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        if ($conn->query($sql) === TRUE) {
+            $successMessage = "New user added successfully!";
+        } else {
+            $errorMessage = "Error: " . $conn->error;
+        }
     }
-
     $conn->close();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -131,6 +134,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .form-footer a:hover {
             text-decoration: underline;
         }
+
+        /* Styling for error and success messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
     </style>
 </head>
 <body>
@@ -138,42 +158,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container">
         <h2>Add User</h2>
 
-        
-        <form action="" method="POST"> 
+        <!-- Display Error Message if there is a validation error -->
         <?php if (!empty($errorMessage)) { ?>
         <div class="alert alert-danger" role="alert">
             <?php echo $errorMessage; ?>
         </div>
-    <?php } ?>
+        <?php } ?>
 
-    <!-- Display Success Message if File is Uploaded Successfully -->
-    <?php if (isset($successMessage)) { ?>
+        <!-- Display Success Message if the user was added successfully -->
+        <?php if (isset($successMessage)) { ?>
         <div class="alert alert-success" role="alert">
             <?php echo $successMessage; ?>
         </div>
-    <?php } ?>
+        <?php } ?>
+
+        <form action="" method="POST">
             <div class="form-group">
-                <label for="name">First Name:</label>
-                <input type="text" id="name" name="first_name" required placeholder="Enter first name">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" required placeholder="Enter first name" value="<?php echo isset($first_name) ? $first_name : ''; ?>">
             </div>
+
             <div class="form-group">
-                <label for="name">Last Name:</label>
-                <input type="text" id="name" name="last_name" required placeholder="Enter last name">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" required placeholder="Enter last name" value="<?php echo isset($last_name) ? $last_name : ''; ?>">
             </div>
 
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required placeholder="Enter email address">
+                <input type="email" id="email" name="email" required placeholder="Enter email address" value="<?php echo isset($email) ? $email : ''; ?>">
             </div>
 
             <div class="form-group">
                 <label for="role">Role:</label>
                 <select id="role" name="role" required>
                     <option value="">Select Role</option>
-                    <option value="supperAdmin">SupperAdmin</option>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Staff</option>
-                    <option value="student">Student</option>
+                    <option value="supperAdmin" <?php echo isset($role) && $role == 'supperAdmin' ? 'selected' : ''; ?>>SupperAdmin</option>
+                    <option value="admin" <?php echo isset($role) && $role == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                    <option value="staff" <?php echo isset($role) && $role == 'staff' ? 'selected' : ''; ?>>Staff</option>
+                    <option value="student" <?php echo isset($role) && $role == 'student' ? 'selected' : ''; ?>>Student</option>
                 </select>
             </div>
 
@@ -191,8 +213,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit"><i class="fas fa-user-plus"></i> Add User</button>
             </div>
         </form>
-
-       
     </div>
 
 </body>

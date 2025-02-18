@@ -84,7 +84,8 @@ if (isset($_SESSION['first_name'])) {
         </button>
         <div class="dropdown-content">
             <a href="#">My Profile</a>
-            <a href="#">Settings</a>
+            <a href="forgot-password.php">Forgot password</a>
+            <a href="reset-password.php">reset password</a>
             <a href="logout.php">Logout</a>
         </div>
     </div>
