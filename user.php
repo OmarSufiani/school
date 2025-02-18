@@ -27,18 +27,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Proceed if no validation errors
     if (empty($errorMessage)) {
-        // Hash password before storing it
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // SQL query to insert the new user into the database
-        $sql = "INSERT INTO users (first_name, last_name, email, role, password) 
-                VALUES ('$first_name', '$last_name', '$email', '$role', '$hashed_password')";
-
-        if ($conn->query($sql) === TRUE) {
-            $successMessage = "New user added successfully!";
+        // Check if email already exists in the database
+        $sql_check_email = "SELECT * FROM users WHERE email = ?";
+        $stmt = $conn->prepare($sql_check_email);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $errorMessage = 'This email already exist!';
         } else {
-            $errorMessage = "Error: " . $conn->error;
+            // Hash password before storing it
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // SQL query to insert the new user into the database
+            $sql = "INSERT INTO users (first_name, last_name, email, role, password) 
+                    VALUES ('$first_name', '$last_name', '$email', '$role', '$hashed_password')";
+
+            if ($conn->query($sql) === TRUE) {
+                $successMessage = "New user added successfully!";
+            } else {
+                $errorMessage = "Error: " . $conn->error;
+            }
         }
+        
+        $stmt->close();
     }
     $conn->close();
 }
