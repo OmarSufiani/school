@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2025 at 12:38 PM
+-- Generation Time: Feb 19, 2025 at 10:45 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -131,7 +131,8 @@ INSERT INTO `uploads` (`id`, `file_name`, `file_path`, `file_type`, `upload_time
 (1, 'Taquc draft.doc', 'uploads/files/Taquc draft.doc', 'doc', '2025-02-11 11:15:06'),
 (2, 'ZARIA- script.docx', 'uploads/files/ZARIA- script.docx', 'docx', '2025-02-11 11:30:11'),
 (3, 'Radio documentary.docx', 'uploads/files/Radio documentary.docx', 'docx', '2025-02-11 11:37:10'),
-(4, 'OMARCOVERL.docx', 'uploads/files/OMARCOVERL.docx', 'docx', '2025-02-11 12:08:25');
+(4, 'OMARCOVERL.docx', 'uploads/files/OMARCOVERL.docx', 'docx', '2025-02-11 12:08:25'),
+(5, 'INDIVIDUAL SHOW with MWINYI MWIINA.docx', 'uploads/files/INDIVIDUAL SHOW with MWINYI MWIINA.docx', 'docx', '2025-02-17 11:44:24');
 
 -- --------------------------------------------------------
 
@@ -160,7 +161,9 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role
 (21, 'vincent', '', 'ronovincent@gmail.com', '$2y$10$MKlUKUlEylqWPGrnyvTvzOUEvCRa/3aYE4RvUHNcGIooAtEDBl7By', 'staff'),
 (30, 'Mkasi', '', 'MKASI@GMAIL.COM', '$2y$10$V5ySfkVsOQCZ7wjmqqyqduTogOuO5OVOTTd4n/PIXriRHy9acSFmK', 'student'),
 (31, 'abdalah', '', 'ABDALLA5@GMAIL.COM', '$2y$10$37iuoQ6ru3hrlPa.kVTBbu/B7DbJmKlZ1098N6aObYLgMSrl9enDa', 'student'),
-(32, 'swaleh', 'juma', 'matao@gmail.com', '$2y$10$egk/8IX4n3/MWiKbqjiIH.ZNd0lfFYLrzZzYc2REsshbtWh3Wc3JG', 'admin');
+(32, 'swaleh', 'juma', 'matao@gmail.com', '$2y$10$egk/8IX4n3/MWiKbqjiIH.ZNd0lfFYLrzZzYc2REsshbtWh3Wc3JG', 'admin'),
+(33, 'sudio', 'kk', 'sudio@gmail.com', '$2y$10$30Pk/JuG99LkYWYu9wnvoeIBBTD6/SXLpN7/cJ.f8GF09vCxFvXNq', 'staff'),
+(34, 'kibor', 'ryan', 'ryan@kpa.co.ke', '$2y$10$p/hem5SqSE9OgY/fkRI/hOyzdtUCJaHTgGgQQ1v2TZdpI/CpaXrdu', 'student');
 
 --
 -- Indexes for dumped tables
@@ -254,13 +257,13 @@ ALTER TABLE `unit`
 -- AUTO_INCREMENT for table `uploads`
 --
 ALTER TABLE `uploads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
