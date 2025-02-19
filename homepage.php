@@ -5,7 +5,7 @@ session_start();
 
 include('db_config.php');
 
-
+include('header.php');
 // Check if the user is logged in (i.e., if session variable exists)
 if (!isset($_SESSION['user_id'])) {
     // If not logged in, redirect to login page
@@ -48,8 +48,7 @@ $users = $result_users->fetch_assoc()['user_count'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-   <?php include('header.php');?>
-   
+  
    
     <style>
         /* Basic styling for the dashboard */

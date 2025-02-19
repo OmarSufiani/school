@@ -1,350 +1,218 @@
-<!DOCTYPE html>
-<!-- Coding By CodingNepal - youtube.com/@codingnepal -->
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sidebar with Dropdown Menu | CodingNepal</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- Linking Google Fonts for Icons -->
-    
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <style>
-    /* Importing Google Fonts - Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-body {
-  min-height: 100vh;
-  background: linear-gradient(#F1F3FF, #CBD4FF);
-}
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  width: 270px;
-  height: 100vh;
-  background: #151A2D;
-  transition: all 0.4s ease;
-}
-.sidebar.collapsed {
-  width: 85px;
-}
-.sidebar .sidebar-header {
-  display: flex;
-  position: relative;
-  padding: 25px 20px;
-  align-items: center;
-  justify-content: space-between;
-}
-.sidebar-header .header-logo img {
-  width: 46px;
-  height: 46px;
-  display: block;
-  object-fit: contain;
-  border-radius: 50%;
-}
-.sidebar-header .sidebar-toggler,
-.sidebar-menu-button {
-  position: absolute;
-  right: 20px;
-  height: 35px;
-  width: 35px;
-  color: #151A2D;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  background: #EEF2FF;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  transition: 0.4s ease;
-}
-.sidebar.collapsed .sidebar-header .sidebar-toggler {
-  transform: translate(-4px, 65px);
-}
-.sidebar-header .sidebar-toggler span,
-.sidebar-menu-button span {
-  font-size: 1.75rem;
-  transition: 0.4s ease;
-}
-.sidebar.collapsed .sidebar-header .sidebar-toggler span {
-  transform: rotate(180deg);
-}
-.sidebar-header .sidebar-toggler:hover {
-  background: #d9e1fd;
-}
-.sidebar-nav .nav-list {
-  list-style: none;
-  display: flex;
-  gap: 4px;
-  padding: 0 15px;
-  flex-direction: column;
-  transform: translateY(15px);
-  transition: 0.4s ease;
-}
-.sidebar .sidebar-nav .primary-nav {
-  overflow-y: auto;
-  scrollbar-width: thin;
-  padding-bottom: 20px;
-  height: calc(100vh - 227px);
-  scrollbar-color: transparent transparent;
-}
-.sidebar .sidebar-nav .primary-nav:hover {
-  scrollbar-color: #EEF2FF transparent;
-}
-.sidebar.collapsed .sidebar-nav .primary-nav {
-  overflow: unset;
-  transform: translateY(65px);
-}
-.sidebar-nav .nav-item .nav-link {
-  color: #fff;
-  display: flex;
-  gap: 12px;
-  white-space: nowrap;
-  border-radius: 8px;
-  padding: 11px 15px;
-  align-items: center;
-  text-decoration: none;
-  border: 1px solid #151A2D;
-  transition: 0.4s ease;
-}
-.sidebar-nav .nav-item:is(:hover, .open)>.nav-link:not(.dropdown-title) {
-  color: #151A2D;
-  background: #EEF2FF;
-}
-.sidebar .nav-link .nav-label {
-  transition: opacity 0.3s ease;
-}
-.sidebar.collapsed .nav-link :where(.nav-label, .dropdown-icon) {
-  opacity: 0;
-  pointer-events: none;
-}
-.sidebar.collapsed .nav-link .dropdown-icon {
-  transition: opacity 0.3s 0s ease;
-}
-.sidebar-nav .secondary-nav {
-  position: absolute;
-  bottom: 35px;
-  width: 100%;
-  background: #151A2D;
-}
-.sidebar-nav .nav-item {
-  position: relative;
-}
-/* Dropdown Stylings */
-.sidebar-nav .dropdown-container .dropdown-icon {
-  margin: 0 -4px 0 auto;
-  transition: transform 0.4s ease, opacity 0.3s 0.2s ease;
-}
-.sidebar-nav .dropdown-container.open .dropdown-icon {
-  transform: rotate(180deg);
-}
-.sidebar-nav .dropdown-menu {
-  height: 0;
-  overflow-y: hidden;
-  list-style: none;
-  padding-left: 15px;
-  transition: height 0.4s ease;
-}
-.sidebar.collapsed .dropdown-menu {
-  position: absolute;
-  top: -10px;
-  left: 100%;
-  opacity: 0;
-  height: auto !important;
-  padding-right: 10px;
-  overflow-y: unset;
-  pointer-events: none;
-  border-radius: 0 10px 10px 0;
-  background: #151A2D;
-  transition: 0s;
-}
-.sidebar.collapsed .dropdown-menu:has(.dropdown-link) {
-  padding: 7px 10px 7px 24px;
-}
-.sidebar.sidebar.collapsed .nav-item:hover>.dropdown-menu {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(12px);
-  transition: all 0.4s ease;
-}
-.sidebar.sidebar.collapsed .nav-item:hover>.dropdown-menu:has(.dropdown-link) {
-  transform: translateY(10px);
-}
-.dropdown-menu .nav-item .nav-link {
-  color: #F1F4FF;
-  padding: 9px 15px;
-}
-.sidebar.collapsed .dropdown-menu .nav-link {
-  padding: 7px 15px;
-}
-.dropdown-menu .nav-item .nav-link.dropdown-title {
-  display: none;
-  color: #fff;
-  padding: 9px 15px;
-}
-.dropdown-menu:has(.dropdown-link) .nav-item .dropdown-title {
-  font-weight: 500;
-  padding: 7px 15px;
-}
-.sidebar.collapsed .dropdown-menu .nav-item .dropdown-title {
-  display: block;
-}
-.sidebar-menu-button {
-  display: none;
-}
-/* Responsive media query code for small screens */
-@media (max-width: 768px) {
-  .sidebar-menu-button {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-    height: 40px;
-    width: 42px;
-    display: flex;
-    color: #F1F4FF;
-    background: #151A2D;
-  }
-  .sidebar.collapsed {
-    width: 270px;
-    left: -270px;
-  }
-  .sidebar.collapsed .sidebar-header .sidebar-toggler {
-    transform: none;
-  }
-  .sidebar.collapsed .sidebar-nav .primary-nav {
-    transform: translateY(15px);
-  }
-}
+<?php
+// Example: You can use PHP to get the role of the current user from a session variable or from the database
+// Example role assignment (replace with actual logic)
+session_start();
+$user_role = $_SESSION['user_role']; // Can be 'superadmin', 'admin', 'staff', 'student'
+?>
 
+<!-- Font Awesome for Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
+<!-- Custom CSS -->
+<style>
+    /* Global Styles */
+    /* Sidebar */
+    .sidebar {
+        height: 100vh; /* Full viewport height */
+        width: 250px;
+        position: fixed;
+        top: 60px; /* Adjust this based on header height */
+        left: 0;
+        background-color: #2c3e50;
+        color: white;
+        transition: all 0.3s;
+        padding-top: 20px;
+        z-index: 50;
+        overflow-y: auto; /* Make it scrollable */
+        padding-bottom: 20px; /* Optional padding to prevent content from being cut off */
+    }
+
+    .sidebar.collapsed {
+        width: 60px; /* When collapsed, reduce the sidebar width */
+    }
+
+    .sidebar-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .sidebar-header h3 {
+        font-size: 24px;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    .sidebar.collapsed .sidebar-header h3 {
+        display: none;
+    }
+
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar ul li {
+        margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: 4px;
+        transition: 0.3s;
+    }
+
+    .sidebar ul li a:hover {
+        background-color: #34495e;
+    }
+
+    .sidebar ul li a i {
+        margin-right: 15px;
+    }
+
+    .sidebar ul li a.collapsed i {
+        margin-right: 0;
+    }
+
+    .sidebar ul li .dropdown-menu {
+        display: none;
+        padding-left: 30px;
+    }
+
+    .sidebar ul li a.collapsed + .dropdown-menu {
+        display: block;
+    }
+
+    .toggle-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        font-size: 20px;
+        color: white;
+    }
+
+    /* Main Content */
+    .main-content.collapsed {
+        margin-left: 60px; /* When sidebar is collapsed, offset less */
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+    }
 </style>
-  </head>
-  <body>
-    <!-- Mobile Sidebar Menu Button -->
-    <button class="sidebar-menu-button">
-      <span class="material-symbols-rounded">menu</span>
-    </button>
-    <aside class="sidebar">
-      <!-- Sidebar Header -->
-      <header class="sidebar-header">
-        <a href="#" class="header-logo">
-          <img src="logo.png" alt="CodingNepal" />
-        </a>
-        <button class="sidebar-toggler">
-          <span class="material-symbols-rounded">chevron_left</span>
-        </button>
-      </header>
-      <nav class="sidebar-nav">
-        <!-- Primary Top Nav -->
-        <ul class="nav-list primary-nav">
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">dashboard</span>
-              <span class="nav-label">Dashboard</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Dashboard</a></li>
-            </ul>
-          </li>
-          <!-- Dropdown -->
-          <li class="nav-item dropdown-container">
-            <a href="#" class="nav-link dropdown-toggle">
-              <span class="material-symbols-rounded">calendar_today</span>
-              <span class="nav-label">Services</span>
-              <span class="dropdown-icon material-symbols-rounded">keyboard_arrow_down</span>
-            </a>
-            <!-- Dropdown Menu -->
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Services</a></li>
-              <li class="nav-item"><a href="#" class="nav-link dropdown-link">IT Consulting</a></li>
-              <li class="nav-item"><a href="#" class="nav-link dropdown-link">Cloud Solutions</a></li>
-              <li class="nav-item"><a href="#" class="nav-link dropdown-link">Mobile Apps</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">notifications</span>
-              <span class="nav-label">Notifications</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Notifications</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">local_library</span>
-              <span class="nav-label">Resources</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Resources</a></li>
-            </ul>
-          </li>
-          <!-- Dropdown -->
-          <li class="nav-item dropdown-container">
-            <a href="#" class="nav-link dropdown-toggle">
-              <span class="material-symbols-rounded">star</span>
-              <span class="nav-label">Bookmarks</span>
-              <span class="dropdown-icon material-symbols-rounded">keyboard_arrow_down</span>
-            </a>
-            <!-- Dropdown Menu -->
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Bookmarks</a></li>
-              <li class="nav-item"><a href="#" class="nav-link dropdown-link">Saved Tutorials</a></li>
-              <li class="nav-item"><a href="#" class="nav-link dropdown-link">Favorite Blogs</a></li>
-              <li class="nav-item"><a href="#" class="nav-link dropdown-link">Resource Guides</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">extension</span>
-              <span class="nav-label">Extensions</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Extensions</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">settings</span>
-              <span class="nav-label">Settings</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Settings</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- Secondary Bottom Nav -->
-        <ul class="nav-list secondary-nav">
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">help</span>
-              <span class="nav-label">Support</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Support</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <span class="material-symbols-rounded">logout</span>
-              <span class="nav-label">Sign Out</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a class="nav-link dropdown-title">Sign Out</a></li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-    <!-- Script -->
-    <script src="script.js"></script>
-  </body>
-</html>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <ul>
+        <li><a href="homepage.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin') { ?>
+            <li>
+                <a href="javascript:void(0)" onclick="toggleDropdown('regulations')"><i class="fas fa-gavel"></i> Regulations <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" id="regulations">
+                    <li><a href="#">School Rules</a></li>
+                    <li><a href="#">TSC Rules</a></li>
+                    <li><a href="#">PTA/BOM Regulations</a></li>
+                </ul>
+            </li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff') { ?>
+            <li>
+                <a href="javascript:void(0)" onclick="toggleDropdown('accounts')"><i class="fas fa-credit-card"></i> Accounts <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" id="accounts">
+                    <li><a href="#">Student Areas</a></li>
+                    <li><a href="#">Account Balance</a></li>
+                </ul>
+            </li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff') { ?>
+            <li><a href="#"><i class="fas fa-user-graduate"></i> Students</a></li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff') { ?>
+            <li>
+                <a href="javascript:void(0)" onclick="toggleDropdown('personnel')"><i class="fas fa-users"></i> Personnel <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" id="personnel">
+                    <li><a href="#">Teaching Staff</a></li>
+                    <li><a href="#">Non-Teaching Staff</a></li>
+                </ul>
+            </li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'student') { ?>
+            <li><a href="upload.php"><i class="fas fa-comments"></i> Communications</a></li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff') { ?>
+            <li><a href="user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff' || $user_role == 'student') { ?>
+            <li><a href="#"><i class="fas fa-credit-card"></i> Accounts</a></li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff' || $user_role == 'student') { ?>
+            <li><a href="download.php"><i class="fas fa-cogs"></i> Resources</a></li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin') { ?>
+            <li><a href="edit.php"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin') { ?>
+            <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+        <?php } ?>
+
+        <?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff') { ?>
+            <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+        <?php } ?>
+
+        <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Toggle Button -->
+    <div class="toggle-btn" onclick="toggleSidebar()">&#9776;</div>
+</div>
+
+<!-- JavaScript for Sidebar Toggle and Dropdown -->
+<script>
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const mainContent = document.querySelector('.main-content');
+        sidebar.classList.toggle('collapsed');
+        mainContent.classList.toggle('collapsed');
+    }
+
+    function toggleDropdown(id) {
+        const menu = document.getElementById(id);
+        menu.style.display = menu.style.display === "none" || menu.style.display === "" ? "block" : "none";
+    }
+</script>
+
+
+
+
+
+
+<?php if ($user_role == 'superadmin' || $user_role == 'admin' || $user_role == 'staff' || $user_role == 'student') { ?>
+           
+        <?php } ?>

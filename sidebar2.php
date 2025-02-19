@@ -1,3 +1,13 @@
+<?php 
+
+$role = $_SESSION['role']; 
+
+ // Can be 'superadmin', 'admin', 'staff', 'student'
+?>
+
+
+
+
 <!-- Font Awesome for Icons -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
@@ -120,24 +130,38 @@
 <div class="sidebar">
     
     <ul>
+    <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff' || $role == 'student') { ?>
         <li><a href="homepage.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-
+        <?php } ?>
+<?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff' || $role == 'student') { ?>
+           
+         
         <li>
     <a href="javascript:void(0)" onclick="toggleDropdown('regulations')"><i class="fas fa-gavel"></i> Regulations <i class="fas fa-chevron-down"></i></a>
     <ul class="dropdown-menu" id="regulations">
+
         <li><a href="#">School Rules</a></li>
+        <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
         <li><a href="#">TSC Rules</a></li>
         <li><a href="#">PTA/BOM Regulations</a></li>
+        <?php } ?>
     </ul>
 </li>
-<li>
+
+
+<?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student') { ?>
+     <li>
             <a href="javascript:void(0)" onclick="toggleDropdown('accounts')"><i class="fas fa-credit-card"></i> Accounts <i class="fas fa-chevron-down"></i></a>
             <ul class="dropdown-menu" id="accounts">
                 <li><a href="#">Student Areas</a></li>
                 <li><a href="#">Account Balance</a></li>
             </ul>
         </li>
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' ) { ?>
         <li><a href="#"><i class="fas fa-user-graduate"></i> Students</a></li>
+        <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'staff' ) { ?>
         <li>
             <a href="javascript:void(0)" onclick="toggleDropdown('personnel')"><i class="fas fa-users"></i> Personnel <i class="fas fa-chevron-down"></i></a>
             <ul class="dropdown-menu" id="personnel">
@@ -145,17 +169,30 @@
                 <li><a href="#">Non-Teaching Staff</a></li>
             </ul>
         </li>
-        <li><a href="upload.php"><i class="fas fa-comments"></i> Communications</a></li>
-        <li><a href="user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
+        <?php } ?>
+        <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
 
+        <li><a href="upload.php"><i class="fas fa-comments"></i> Communications</a></li>
+        <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
+        <li><a href="user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
+  <?php } ?>
         <li><a href="#"><i class="fas fa-credit-card"></i> Accounts</a></li>
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
         <li><a href="download.php"><i class="fas fa-cogs"></i> Resources</a></li>
+        <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
         <li><a href="edit.php"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
         <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+        <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'staff') { ?>
         <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+        <?php } ?> 
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
         <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
-     
-       
+        <?php } ?> 
+        
     </ul>
 </div>
 

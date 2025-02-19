@@ -12,28 +12,58 @@ if (isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Process login
+// Initialize error messages array
+$errors = [];
+
+// Process login when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     include('db_config.php');
 
+    // Get the form input
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE email='$email'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['user_id'] = $row['id']; 
-            $_SESSION['first_name'] = $row['first_name']; // Store user id in session
-            header("Location: homepage.php");
-            exit();
-        } else {
-            echo "Invalid password.";
-        }
+    // Server-side validation
+    if (empty($email)) {
+        $errors[] = "Email is required.";
     } else {
-        echo "No user found.";
+        // Validate email format
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Invalid email format.";
+        }
+    }
+
+    if (empty($password)) {
+        $errors[] = "Password is required.";
+    }
+
+    // If there are no validation errors, proceed with login
+    if (empty($errors)) {
+        // Sanitize email to prevent SQL Injection
+        $email = $conn->real_escape_string($email);
+
+        // Query to fetch the user from the database
+        $sql = "SELECT * FROM users WHERE email='$email'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            // Check if the password is correct using password_verify
+            if (password_verify($password, $row['password'])) {
+                // Start session for the logged-in user
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['first_name'] = $row['first_name'];
+                $_SESSION['role'] = $row['role']; // Store user role in session
+
+                // Redirect to homepage
+                header("Location: homepage.php");
+                exit();
+            } else {
+                $errors[] = "Invalid password.";
+            }
+        } else {
+            $errors[] = "No user found with this email.";
+        }
     }
 
     $conn->close();
@@ -46,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-   
+
     <style>
         /* General Styles */
         body {
@@ -73,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         h2 {
             margin-bottom: 20px;
-            color:blue;
+            color: blue;
         }
 
         form {
@@ -92,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         input[type="submit"] {
-            background-color:blue;
+            background-color: blue;
             color: white;
             padding: 12px 20px;
             border: none;
@@ -107,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .form-container a {
             text-decoration: none;
-            color:blue;
+            color: blue;
             font-size: 14px;
             margin-top: 10px;
         }
@@ -116,19 +146,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-decoration: underline;
         }
 
+        /* Error Messages */
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="form-container">
     <h2>Login</h2>
+
+    <!-- Display error messages -->
+    <?php
+    if (!empty($errors)) {
+        echo '<div class="error">';
+        foreach ($errors as $error) {
+            echo "<p>$error</p>";
+        }
+        echo '</div>';
+    }
+    ?>
+
     <form method="post" action="">
-        Email: <input type="email" name="email" required placeholder="Enter your email"><br>
-        Password: <input type="password" name="password" required placeholder="Enter your password"><br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" value="<?php echo isset($email) ? $email : ''; ?>" required placeholder="Enter your email">
+        
+        <label for="password">Password:</label>
+        <input type="password" name="password" required placeholder="Enter your password">
+        
         <input type="submit" value="Login">
     </form>
 </div>
 
 </body>
 </html>
-

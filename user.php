@@ -3,6 +3,9 @@ include('db_config.php');
 include('header.php');
 include('sidebar2.php');
 
+
+
+
 $errorMessage = ''; // Variable to store validation error messages
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
