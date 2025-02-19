@@ -133,9 +133,8 @@ $role = $_SESSION['role'];
     <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff' || $role == 'student') { ?>
         <li><a href="homepage.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
         <?php } ?>
+
 <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff' || $role == 'student') { ?>
-           
-         
         <li>
     <a href="javascript:void(0)" onclick="toggleDropdown('regulations')"><i class="fas fa-gavel"></i> Regulations <i class="fas fa-chevron-down"></i></a>
     <ul class="dropdown-menu" id="regulations">
@@ -182,7 +181,7 @@ $role = $_SESSION['role'];
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
         <li><a href="download.php"><i class="fas fa-cogs"></i> Resources</a></li>
         <?php } ?>
-        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student') { ?>
         <li><a href="edit.php"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
         <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
         <?php } ?>
