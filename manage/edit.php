@@ -1,6 +1,6 @@
 <?php
-include('db_config.php'); // Database connection file
-
+include('../organize/db_config.php'); // Database connection file
+include('../organize/header.php');
 // Retrieve students from the database
 $query = "SELECT * FROM students";
 $result = mysqli_query($conn, $query);
@@ -10,7 +10,7 @@ if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     $delete_query = "DELETE FROM students WHERE id = $delete_id";
     mysqli_query($conn, $delete_query);
-    header("Location: students.php");
+    header("Location: ../organize/edit.php");
     exit();
 }
 
@@ -23,7 +23,7 @@ if (isset($_POST['edit_student'])) {
 
     $edit_query = "UPDATE students SET name='$name', email='$email', age=$age WHERE id=$id";
     mysqli_query($conn, $edit_query);
-    header("Location: students.php");
+    header("Location: ../organize/edit.php");
     exit();
 }
 
@@ -35,7 +35,7 @@ if (isset($_POST['add_student'])) {
 
     $insert_query = "INSERT INTO students (name, email, age) VALUES ('$name', '$email', $age)";
     mysqli_query($conn, $insert_query);
-    header("Location: students.php");
+    header("Location: ../organize/edit.php");
     exit();
 }
 ?>
@@ -48,13 +48,23 @@ if (isset($_POST['add_student'])) {
     <title>Student Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+<style>
+.container{
+    margin-top: 90px;
+}
+
+
+</style>
 <body>
 
-<div class="container mt-5">
+<div class="container">
     <h2>Student Management</h2>
 
     <!-- Add New Student Form -->
     <form action="" method="POST" class="mb-4">
+
+   
         <div class="mb-3">
             <label for="name" class="form-label">Name:</label>
             <input type="text" class="form-control" id="name" name="name" required>
@@ -68,6 +78,9 @@ if (isset($_POST['add_student'])) {
             <input type="number" class="form-control" id="age" name="age" required>
         </div>
         <button type="submit" name="add_student" class="btn btn-success">Add Student</button>
+
+        <div> <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Go Back
+        </a></div>
     </form>
 
     <!-- Students List -->

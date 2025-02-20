@@ -1,6 +1,7 @@
 <?php
 include('header.php');
 include('db_config.php');
+include('sidebar2.php');
 //include('sidebar2.php');
 // Directory where your files are stored
 $directory = 'uploads/files/';  // Change this to your folder path

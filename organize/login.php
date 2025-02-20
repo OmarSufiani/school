@@ -17,7 +17,7 @@ $errors = [];
 
 // Process login when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include('db_config.php');
+    include('db_config.php'); // Adjusted path
 
     // Get the form input
     $email = $_POST['email'];
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['role'] = $row['role']; // Store user role in session
 
                 // Redirect to homepage
-                header("Location: homepage.php");
+                header("Location: homepage.php"); // Adjusted path
                 exit();
             } else {
                 $errors[] = "Invalid password.";
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
-            background:Url("./images/admin.jpg");
+            background: Url("../../images/admin.jpg"); /* Adjusted path */
             margin: 0;
             padding: 0;
             display: flex;

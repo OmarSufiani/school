@@ -1,7 +1,11 @@
 <?php
-include('db_config.php');
-include('header.php');
-include('sidebar2.php');
+
+
+session_start();
+include('../organize/db_config.php');
+include('../organize/header.php');
+
+
 
 
 
@@ -227,7 +231,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="form-group">
                 <button type="submit"><i class="fas fa-user-plus"></i> Add User</button>
+                
+                
+                <br>
+                            <!-- Back Button -->
+
+              
+        
+
             </div>
+            <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;"> Back
+            </a>
         </form>
     </div>
 

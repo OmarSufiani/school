@@ -8,7 +8,7 @@ header("Expires: 0"); // Expire immediately
 
 // If user is already logged in, redirect to homepage
 if (isset($_SESSION['user_id'])) {
-    header("Location: homepage.php");
+    header("Location:organize/homepage.php");
     exit();
 }
 ?>
