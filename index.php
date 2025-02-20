@@ -165,7 +165,7 @@ if (isset($_SESSION['user_id'])) {
             <li><a href="#">Profile</a></li>
             <li><a href="#">Settings</a></li>
            
-            <li><a href="login.php">Login</a></li>
+            <li><a href="organize/login.php">Login</a></li>
         </ul>
     </div>
 
@@ -180,7 +180,7 @@ if (isset($_SESSION['user_id'])) {
                 <span>Notification</span> | <span>Messages</span>
             </div>
         </div>
-        <img src="./images/admin.jpg">
+        <img src="images/admin.jpg">
         </div>
     </div>
 
