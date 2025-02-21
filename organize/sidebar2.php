@@ -21,7 +21,7 @@ $role = $_SESSION['role'];
 .sidebar {
     height: 100vh; /* Full viewport height */
     width: 250px;
-    position: fixed;
+    position: absolute;
     top: 60px; /* Adjust this based on header height */
     left: 0;
     background-color: #2c3e50;
@@ -158,7 +158,7 @@ $role = $_SESSION['role'];
             </ul>
         </li>
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' ) { ?>
-        <li><a href="#"><i class="fas fa-user-graduate"></i> Students</a></li>
+        <li><a href="../manage/edit.php"><i class="fas fa-user-graduate"></i> Students</a></li>
         <?php } ?>
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'staff' ) { ?>
         <li>
@@ -170,19 +170,29 @@ $role = $_SESSION['role'];
         </li>
         <?php } ?>
         <?php } ?>
-        <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
-
-        <li><a href="upload.php"><i class="fas fa-comments"></i> Communications</a></li>
-        <?php } ?>
+      
         <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
         <li><a href="../manage/user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
   <?php } ?>
         <li><a href="#"><i class="fas fa-credit-card"></i> Accounts</a></li>
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
-        <li><a href="download.php"><i class="fas fa-cogs"></i> Resources</a></li>
+        <li>
+            <a href="javascript:void(0)" onclick="toggleDropdown('resources')"><i class="fas fa-cogs"></i> Resources <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu" id="resources">
+            <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
+                <li><a href="upload.php">uploads</a></li>
+                <?php } ?>
+                <li><a href="download.php">files</a></li>
+            </ul>
+        </li>
         <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
+
+        <li><a href="#"><i class="fas fa-comments"></i> Communications</a></li>
+        <?php } ?>
+                
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student') { ?>
-        <li><a href="../manage/edit.php"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
+        <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
         <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
         <?php } ?>
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'staff') { ?>

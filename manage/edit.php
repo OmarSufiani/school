@@ -1,6 +1,7 @@
 <?php
 include('../organize/db_config.php'); // Database connection file
 include('../organize/header.php');
+$role = $_SESSION['role']; 
 // Retrieve students from the database
 $query = "SELECT * FROM students";
 $result = mysqli_query($conn, $query);
@@ -10,7 +11,7 @@ if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
     $delete_query = "DELETE FROM students WHERE id = $delete_id";
     mysqli_query($conn, $delete_query);
-    header("Location: ../organize/edit.php");
+    header("Location: edit.php");
     exit();
 }
 
@@ -23,7 +24,7 @@ if (isset($_POST['edit_student'])) {
 
     $edit_query = "UPDATE students SET name='$name', email='$email', age=$age WHERE id=$id";
     mysqli_query($conn, $edit_query);
-    header("Location: ../organize/edit.php");
+    header("Location: edit.php");
     exit();
 }
 
@@ -35,7 +36,7 @@ if (isset($_POST['add_student'])) {
 
     $insert_query = "INSERT INTO students (name, email, age) VALUES ('$name', '$email', $age)";
     mysqli_query($conn, $insert_query);
-    header("Location: ../organize/edit.php");
+    header("Location: edit.php");
     exit();
 }
 ?>
@@ -60,7 +61,7 @@ if (isset($_POST['add_student'])) {
 
 <div class="container">
     <h2>Student Management</h2>
-
+    <?php if ($role == 'supperAdmin' || $role == 'admin') { ?>
     <!-- Add New Student Form -->
     <form action="" method="POST" class="mb-4">
 
@@ -82,10 +83,16 @@ if (isset($_POST['add_student'])) {
         <div> <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Go Back
         </a></div>
     </form>
-
+    <?php } ?>
     <!-- Students List -->
     <h3>List of Students</h3>
     <table class="table table-bordered">
+    <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Go Back
+    </a>
+    </br>
+    <br>
+    
+
         <thead>
             <tr>
                 <th>#</th>
@@ -136,6 +143,7 @@ if (isset($_POST['add_student'])) {
                                         <input type="number" class="form-control" id="age" name="age" value="<?php echo $student['age']; ?>" required>
                                     </div>
                                     <button type="submit" name="edit_student" class="btn btn-primary">Update Student</button>
+                                    
                                 </form>
                             </div>
                         </div>

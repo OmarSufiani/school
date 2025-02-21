@@ -4,7 +4,7 @@ include('db_config.php');
 include('header.php');
 include('sidebar2.php');
 // Define the directory where files will be uploaded
-$targetDir = "uploads/files/";
+$targetDir = "../uploads/files/";
 
 // Ensure the directory exists, create it if not
 if (!is_dir($targetDir)) {
@@ -42,7 +42,7 @@ if (isset($_FILES["file"])) {
 
         // Execute the query
         if ($stmt->execute()) {
-            $successMessage = "The file " . htmlspecialchars($fileName) . " has been uploaded and saved to the database.";
+            $successMessage = "The file " . htmlspecialchars($fileName) . " has been uploaded successfully";
         } else {
             $errorMessage = "Error: " . $stmt->error;
         }

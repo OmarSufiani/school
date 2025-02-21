@@ -1,10 +1,10 @@
 <?php
 include('header.php');
-include('db_config.php');
-include('sidebar2.php');
+
+
 //include('sidebar2.php');
 // Directory where your files are stored
-$directory = 'uploads/files/';  // Change this to your folder path
+$directory = '../uploads/files/';  // Change this to your folder path
 
 // Check if the form is submitted to handle the file download
 if (isset($_POST['download_file'])) {
@@ -90,6 +90,9 @@ if (isset($_POST['download_file'])) {
             </select>
         </div>
         <button type="submit" name="download_file" class="btn btn-primary">Download</button>
+        <br>
+        <a href="homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Go Back
+        </a>
     </form>
 </div>
 
