@@ -130,7 +130,11 @@ $role = $_SESSION['role'];
 <div class="sidebar">
     
     <ul>
+<<<<<<< HEAD
     <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff' ) { ?>
+=======
+    <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff' || $role == 'student') { ?>
+>>>>>>> d550f93513f316870f9996a2d4d9d1e60f471486
         <li><a href="../organize/homepage.php"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
         <?php } ?>
 
@@ -154,10 +158,14 @@ $role = $_SESSION['role'];
             <a href="javascript:void(0)" onclick="toggleDropdown('accounts')"><i class="fas fa-credit-card"></i> Accounts <i class="fas fa-chevron-down"></i></a>
             <ul class="dropdown-menu" id="accounts">
                 <li><a href="#">Student Areas</a></li>
+<<<<<<< HEAD
                 
 <?php if ($role == 'supperAdmin' || $role == 'admin' ) { ?>
                 <li><a href="#">Account Balance</a></li>
                 <?php } ?>
+=======
+                <li><a href="#">Account Balance</a></li>
+>>>>>>> d550f93513f316870f9996a2d4d9d1e60f471486
             </ul>
         </li>
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' ) { ?>
@@ -177,7 +185,11 @@ $role = $_SESSION['role'];
         <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
         <li><a href="../manage/user.php"><i class="fas fa-user-cog"></i> Manage User</a></li>
   <?php } ?>
+<<<<<<< HEAD
        
+=======
+        <li><a href="#"><i class="fas fa-credit-card"></i> Accounts</a></li>
+>>>>>>> d550f93513f316870f9996a2d4d9d1e60f471486
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
         <li>
             <a href="javascript:void(0)" onclick="toggleDropdown('resources')"><i class="fas fa-cogs"></i> Resources <i class="fas fa-chevron-down"></i></a>
@@ -191,6 +203,7 @@ $role = $_SESSION['role'];
         <?php } ?>
         <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
 
+<<<<<<< HEAD
         <li><a href="../manage/view.php"><i class="fas fa-comments"></i> Communications</a></li>
         <?php } ?>
                 
@@ -200,6 +213,17 @@ $role = $_SESSION['role'];
         <?php } ?>
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'staff') { ?>
         <li><a href="../manage/add.php"><i class="fas fa-cogs"></i> Settings</a></li>
+=======
+        <li><a href="#"><i class="fas fa-comments"></i> Communications</a></li>
+        <?php } ?>
+                
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student') { ?>
+        <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
+        <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+        <?php } ?>
+        <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'staff') { ?>
+        <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+>>>>>>> d550f93513f316870f9996a2d4d9d1e60f471486
         <?php } ?> 
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
         <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
