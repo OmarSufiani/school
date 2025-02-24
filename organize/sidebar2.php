@@ -199,7 +199,7 @@ $role = $_SESSION['role'];
         <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
         <?php } ?>
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'staff') { ?>
-        <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+        <li><a href="../manage/add.php"><i class="fas fa-cogs"></i> Settings</a></li>
         <?php } ?> 
         <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' || $role == 'staff') { ?>
         <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
