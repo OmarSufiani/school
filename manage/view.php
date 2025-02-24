@@ -14,7 +14,7 @@ if (isset($_POST['view_students'])) {
             // Start the HTML table to display data
             echo "<h1>Student List</h1>";
             echo "<table border='1' cellpadding='10' cellspacing='0'>";
-            echo "<tr><th>Student ID</th><th>Registration No</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Date of Birth</th><th>Gender</th><th>Unit Code</th><th>Phone Number</th><th>Grade</th><th>Status</th></tr>";
+            echo "<tr><th>Student ID</th><th>Registration No</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Date of Birth</th><th>Gender</th><th>Phone Number</th><th>Units</th><th>Status</th></tr>";
 
             // Fetch each row and display it in the table
             while ($row = $result->fetch_assoc()) {
@@ -26,9 +26,9 @@ if (isset($_POST['view_students'])) {
                 echo "<td>" . $row['sEmail'] . "</td>";
                 echo "<td>" . $row['date_of_birth'] . "</td>";
                 echo "<td>" . $row['gender'] . "</td>";
-                echo "<td>" . $row['unitCode'] . "</td>";
+                
                 echo "<td>" . $row['phone_number'] . "</td>";
-                echo "<td>" . $row['grade'] . "</td>";
+                echo "<td>" . $row['units'] . "</td>";
                 echo "<td>" . $row['status'] . "</td>";
                 echo "</tr>";
             }

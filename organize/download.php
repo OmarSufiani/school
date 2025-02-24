@@ -90,9 +90,10 @@ if (isset($_POST['download_file'])) {
             </select>
         </div>
         <button type="submit" name="download_file" class="btn btn-primary">Download</button>
-        <br>
+        <br><br>
         <a href="homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Go Back
         </a>
+            </br>
     </form>
 </div>
 
