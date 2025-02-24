@@ -1,34 +1,51 @@
-
 <?php
+include('../organize/header.php');
+include('../organize/db_config.php'); // Ensure db_config.php exists and connects to the database
 
-include('db_config.php');
-// Collect data from form
-$english = $_POST['english'];
- $kiswahili = $_POST['kiswahili'];
-$maths = $_POST['maths'];
-$chemistry = $_POST['chemistry'];
-$physics = $_POST['physics'];
-$biology = $_POST['biology'];
-$ire = $_POST['ire'];
-$cre = $_POST['cre'];
-$agriculture = $_POST['agriculture'];
-$computer = $_POST['computer'];
-$homescience = $_POST['homescience'];
+// Collect data from the form when the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Collect form data
+    $subject_name = $_POST['subject_name'] ?? '';
+    $code = $_POST['code'] ?? '';
 
-// Insert data into the database
-$sql = "INSERT INTO unit (english, kiswahili, maths, chemistry, physics, biology, ire, cre, agriculture, computer, homescience)
-        VALUES ('$english', '$kiswahili', '$maths', '$chemistry', '$physics', '$biology', '$ire', '$cre', '$agriculture', '$computer', '$homescience')";
+    // Basic validation
+    $errors = [];
+    
+    if (empty($subject_name)) {
+        $errors[] = "Subject name is required.";
+    }
 
-if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    if (empty($code)) {
+        $errors[] = "Subject code is required.";
+    } elseif (!preg_match('/^[A-Za-z0-9]+$/', $code)) { // Ensure code is alphanumeric
+        $errors[] = "Subject code must be alphanumeric.";
+    }
+
+    // If there are no errors, proceed with database insertion
+    if (empty($errors)) {
+        // Ensure the connection is established
+        if ($conn) {
+            // Use prepared statements to prevent SQL injection
+            $stmt = $conn->prepare("INSERT INTO subjects (subject_name, code) VALUES (?, ?)");
+            $stmt->bind_param("ss", $subject_name, $code);
+
+            if ($stmt->execute()) {
+                $successMessage = "New record created successfully";
+            } else {
+                $errorMessage = "Error: " . $stmt->error;
+            }
+
+            // Close the statement and connection
+            $stmt->close();
+        } else {
+            $errorMessage = "Database connection failed.";
+        }
+
+        // Close the connection after the query
+        $conn->close();
+    }
 }
-
-$conn->close();
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,6 +75,7 @@ $conn->close();
             margin: 30px auto;
             background-color: #fff;
             padding: 20px;
+            margin-top: 90px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -113,41 +131,33 @@ $conn->close();
     </style>
 </head>
 <body>
-    <h1>Add Unit Details</h1>
     <div class="form-container">
+    
+        <!-- Display Error Message if validation failed -->
+        <?php if (!empty($errors)) { ?>
+        <div class="alert alert-danger" role="alert">
+            <?php 
+                foreach ($errors as $error) {
+                    echo "<p style='color:red;'>$error</p>";
+                }
+            ?>
+        </div>
+        <?php } ?>
+
+        <!-- Display Success Message if the user was added successfully -->
+        <?php if (isset($successMessage)) { ?>
+        <div class="alert alert-success" role="alert">
+            <?php echo $successMessage; ?>
+        </div>
+        <?php } ?>
+
         <form action="" method="POST">
-            <label for="english">English:</label>
-            <input type="text" id="english" name="english" required><br>
+            <h1>Add Unit Details</h1>
+            <label for="Subject_name">Subject Name:</label>
+            <input type="text" name="subject_name" required><br>
 
-            <label for="kiswahili">Kiswahili:</label>
-            <input type="text" id="kiswahili" name="kiswahili" required><br>
-
-            <label for="maths">Maths:</label>
-            <input type="text" id="maths" name="maths" required><br>
-
-            <label for="chemistry">Chemistry:</label>
-            <input type="text" id="chemistry" name="chemistry" required><br>
-
-            <label for="physics">Physics:</label>
-            <input type="text" id="physics" name="physics" required><br>
-
-            <label for="biology">Biology:</label>
-            <input type="text" id="biology" name="biology" required><br>
-
-            <label for="ire">IRE:</label>
-            <input type="text" id="ire" name="ire" required><br>
-
-            <label for="cre">CRE:</label>
-            <input type="text" id="cre" name="cre" required><br>
-
-            <label for="agriculture">Agriculture:</label>
-            <input type="text" id="agriculture" name="agriculture" required><br>
-
-            <label for="computer">Computer:</label>
-            <input type="text" id="computer" name="computer" required><br>
-
-            <label for="homescience">Home Science:</label>
-            <input type="text" id="homescience" name="homescience" required><br>
+            <label for="Subject_Code">Subject Code:</label>
+            <input type="text" name="code" required><br>
 
             <input type="submit" value="Submit">
         </form>
