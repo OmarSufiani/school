@@ -4,8 +4,8 @@ session_start();
 
 
 include('db_config.php');
-
 include('header.php');
+
 // Check if the user is logged in (i.e., if session variable exists)
 if (!isset($_SESSION['user_id'])) {
     // If not logged in, redirect to login page
@@ -20,14 +20,14 @@ header("Expires: 0"); // Expire immediately
 
 
 // Query to count the number of students
-$sql_students = "SELECT COUNT(*) AS student_count FROM students";
+$sql_students = "SELECT COUNT(*) AS students_count FROM students";
 $result_students = $conn->query($sql_students);
-$students = $result_students->fetch_assoc()['student_count'];
+$students = $result_students->fetch_assoc()['students_count'];
 
 // Query to count the number of accounts
-$sql_accounts = "SELECT COUNT(*) AS account_count FROM accounts";
-$result_accounts = $conn->query($sql_accounts);
-$accounts = $result_accounts->fetch_assoc()['account_count'];
+$sql_subjects = "SELECT COUNT(*) AS subjects_count FROM subjects";
+$result_subjects = $conn->query($sql_subjects);
+$subjects = $result_subjects->fetch_assoc()['subjects_count'];
 
 // Query to count the number of staff members
 $sql_teachers = "SELECT COUNT(*) AS teachers_count FROM accounts";
@@ -164,8 +164,8 @@ $users = $result_users->fetch_assoc()['user_count'];
         </div>
 
         <div class="box2">
-            <h3>Accounts</h3>
-            <p><?php echo $accounts; ?></p>
+            <h3>Subjects Offered</h3>
+            <p><?php echo $subjects; ?></p>
         </div>
 
         <div class="box3">
