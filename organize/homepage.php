@@ -156,10 +156,7 @@ $users = $result_users->fetch_assoc()['user_count'];
     </head>
 <body>
 <?php include('sidebar2.php');?>
-<<<<<<< HEAD
 <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff' ) { ?>
-=======
->>>>>>> d550f93513f316870f9996a2d4d9d1e60f471486
     <div class="dashboard">
         <div class="box">
             <h3>Students</h3>
@@ -181,11 +178,7 @@ $users = $result_users->fetch_assoc()['user_count'];
             <p><?php echo $users; ?></p>
         </div>
     </div>
-<<<<<<< HEAD
     <?php } ?>
-=======
-
->>>>>>> d550f93513f316870f9996a2d4d9d1e60f471486
 </body>
 
 </html>

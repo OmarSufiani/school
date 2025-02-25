@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2025 at 10:45 AM
+-- Generation Time: Feb 25, 2025 at 08:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -31,6 +31,7 @@ CREATE TABLE `academics` (
   `academic_id` int(11) NOT NULL,
   `student_regno` varchar(255) NOT NULL,
   `course_name` varchar(100) NOT NULL,
+  `subjectCode` varchar(255) NOT NULL,
   `semester` varchar(20) NOT NULL,
   `grade` varchar(5) DEFAULT NULL,
   `year` int(11) NOT NULL
@@ -66,11 +67,10 @@ CREATE TABLE `students` (
   `sEmail` varchar(50) NOT NULL,
   `date_of_birth` date NOT NULL,
   `gender` enum('Male','Female','Other') NOT NULL,
-  `unitCode` varchar(30) NOT NULL,
+  `subject` int(11) NOT NULL,
   `address` text DEFAULT NULL,
   `phone_number` varchar(15) DEFAULT NULL,
   `enrollment_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `grade` varchar(10) DEFAULT NULL,
   `status` enum('Active','Inactive') DEFAULT 'Active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -88,25 +88,10 @@ CREATE TABLE `teachers` (
   `gender` enum('Male','Female','Other') NOT NULL,
   `address` text DEFAULT NULL,
   `phone_number` varchar(15) DEFAULT NULL,
-  `tEmail` varchar(50) NOT NULL,
   `unit_code` varchar(30) NOT NULL,
   `hire_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `subject_specialization` varchar(100) DEFAULT NULL,
+  `subject` varchar(100) DEFAULT NULL,
   `status` enum('Active','Inactive') DEFAULT 'Active'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `unit`
---
-
-CREATE TABLE `unit` (
-  `unit_id` int(11) NOT NULL,
-  `unit_code` varchar(30) NOT NULL,
-  `unit_name` varchar(100) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -128,11 +113,16 @@ CREATE TABLE `uploads` (
 --
 
 INSERT INTO `uploads` (`id`, `file_name`, `file_path`, `file_type`, `upload_time`) VALUES
-(1, 'Taquc draft.doc', 'uploads/files/Taquc draft.doc', 'doc', '2025-02-11 11:15:06'),
-(2, 'ZARIA- script.docx', 'uploads/files/ZARIA- script.docx', 'docx', '2025-02-11 11:30:11'),
-(3, 'Radio documentary.docx', 'uploads/files/Radio documentary.docx', 'docx', '2025-02-11 11:37:10'),
-(4, 'OMARCOVERL.docx', 'uploads/files/OMARCOVERL.docx', 'docx', '2025-02-11 12:08:25'),
-(5, 'INDIVIDUAL SHOW with MWINYI MWIINA.docx', 'uploads/files/INDIVIDUAL SHOW with MWINYI MWIINA.docx', 'docx', '2025-02-17 11:44:24');
+(1, 'Taquc draft.doc', 'uploads/files/Taquc draft.doc', 'doc', '2025-02-11 08:15:06'),
+(2, 'ZARIA- script.docx', 'uploads/files/ZARIA- script.docx', 'docx', '2025-02-11 08:30:11'),
+(3, 'Radio documentary.docx', 'uploads/files/Radio documentary.docx', 'docx', '2025-02-11 08:37:10'),
+(4, 'OMARCOVERL.docx', 'uploads/files/OMARCOVERL.docx', 'docx', '2025-02-11 09:08:25'),
+(5, 'INDIVIDUAL SHOW with MWINYI MWIINA.docx', 'uploads/files/INDIVIDUAL SHOW with MWINYI MWIINA.docx', 'docx', '2025-02-17 08:44:24'),
+(6, 'code.txt', 'uploads/files/code.txt', 'txt', '2025-02-20 05:27:30'),
+(7, 'KIOKO_Media_Project[1].docx', '../uploads/files/KIOKO_Media_Project[1].docx', 'docx', '2025-02-20 17:18:11'),
+(8, 'kkk.pdf', '../uploads/files/kkk.pdf', 'pdf', '2025-02-20 17:21:34'),
+(9, 'omar dashboard.txt', '../uploads/files/omar dashboard.txt', 'txt', '2025-02-21 15:13:52'),
+(10, 'Naibu Rais Rigathi Gachagua anasema hataingizwa katika siasa za pande zote.docx', '../uploads/files/Naibu Rais Rigathi Gachagua anasema hataingizwa katika siasa za pande zote.docx', 'docx', '2025-02-24 13:57:14');
 
 -- --------------------------------------------------------
 
@@ -154,16 +144,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role`) VALUES
-(9, 'Sufiani', '', 'hommiedelaco@gmail.com', '$2y$10$FYBuCl5pLzh9FXphxRIVOOccREBBuAGxRSnZ39W2I48Lss1VSZZNW', 'supperAdmin'),
-(10, 'vincent ', '', 'vinny@gmail.com', '$2y$10$l.Q/WOe8T7aDscN2GLFO5.HxNFtH3IIQvWTnzOClcE9CDgVphNsGW', 'supperAdmin'),
-(13, 'suleiman', '', 'mohamedrajab0000@gmail.com', '$2y$10$3qPRLIgTuhfRu.Rb5u0nHOPv.3Fzgqn.e5qr3ffzE69GaDiNuCs7m', 'supperAdmin'),
-(15, 'saidi hamisi', '', 'saidi@kpa.co.ke', '$2y$10$R2.oWBuu4CXS.PRAil38PeYCRO3pPn2QwmfZ6c/2ACnkLKR9hDt2a', 'staff'),
-(21, 'vincent', '', 'ronovincent@gmail.com', '$2y$10$MKlUKUlEylqWPGrnyvTvzOUEvCRa/3aYE4RvUHNcGIooAtEDBl7By', 'staff'),
-(30, 'Mkasi', '', 'MKASI@GMAIL.COM', '$2y$10$V5ySfkVsOQCZ7wjmqqyqduTogOuO5OVOTTd4n/PIXriRHy9acSFmK', 'student'),
-(31, 'abdalah', '', 'ABDALLA5@GMAIL.COM', '$2y$10$37iuoQ6ru3hrlPa.kVTBbu/B7DbJmKlZ1098N6aObYLgMSrl9enDa', 'student'),
-(32, 'swaleh', 'juma', 'matao@gmail.com', '$2y$10$egk/8IX4n3/MWiKbqjiIH.ZNd0lfFYLrzZzYc2REsshbtWh3Wc3JG', 'admin'),
-(33, 'sudio', 'kk', 'sudio@gmail.com', '$2y$10$30Pk/JuG99LkYWYu9wnvoeIBBTD6/SXLpN7/cJ.f8GF09vCxFvXNq', 'staff'),
-(34, 'kibor', 'ryan', 'ryan@kpa.co.ke', '$2y$10$p/hem5SqSE9OgY/fkRI/hOyzdtUCJaHTgGgQQ1v2TZdpI/CpaXrdu', 'student');
+(1, 'OMAR', 'SUFIANI', 'hommiedelaco@gmail.com', '$2y$10$jatEaonAeK5d.DB44SkZ9u.Oe.kOFg5G79vi46qU67oENW49NtK2m', 'supperAdmin');
 
 --
 -- Indexes for dumped tables
@@ -174,96 +155,23 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `role
 --
 ALTER TABLE `academics`
   ADD PRIMARY KEY (`academic_id`),
-  ADD KEY `student_regno` (`student_regno`);
-
---
--- Indexes for table `accounts`
---
-ALTER TABLE `accounts`
-  ADD PRIMARY KEY (`account_id`);
-
---
--- Indexes for table `students`
---
-ALTER TABLE `students`
-  ADD PRIMARY KEY (`student_id`),
-  ADD KEY `reg_no` (`reg_no`),
-  ADD KEY `unitCode` (`unitCode`),
-  ADD KEY `students_ibfk_2` (`sEmail`);
-
---
--- Indexes for table `teachers`
---
-ALTER TABLE `teachers`
-  ADD PRIMARY KEY (`teacher_id`),
-  ADD KEY `unit_code` (`unit_code`),
-  ADD KEY `teachers_ibfk_2` (`tEmail`);
-
---
--- Indexes for table `unit`
---
-ALTER TABLE `unit`
-  ADD PRIMARY KEY (`unit_id`),
-  ADD KEY `unit_code` (`unit_code`);
-
---
--- Indexes for table `uploads`
---
-ALTER TABLE `uploads`
-  ADD PRIMARY KEY (`id`);
+  ADD KEY `subjectCode` (`subjectCode`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `academics`
---
-ALTER TABLE `academics`
-  MODIFY `academic_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `accounts`
---
-ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `students`
---
-ALTER TABLE `students`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `teachers`
---
-ALTER TABLE `teachers`
-  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `unit`
---
-ALTER TABLE `unit`
-  MODIFY `unit_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `uploads`
---
-ALTER TABLE `uploads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -273,21 +181,7 @@ ALTER TABLE `users`
 -- Constraints for table `academics`
 --
 ALTER TABLE `academics`
-  ADD CONSTRAINT `academics_ibfk_1` FOREIGN KEY (`student_regno`) REFERENCES `students` (`reg_no`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `students`
---
-ALTER TABLE `students`
-  ADD CONSTRAINT `students_ibfk_1` FOREIGN KEY (`unitCode`) REFERENCES `unit` (`unit_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `students_ibfk_2` FOREIGN KEY (`sEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `teachers`
---
-ALTER TABLE `teachers`
-  ADD CONSTRAINT `teachers_ibfk_1` FOREIGN KEY (`unit_code`) REFERENCES `unit` (`unit_code`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `teachers_ibfk_2` FOREIGN KEY (`tEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `academics_ibfk_1` FOREIGN KEY (`subjectCode`) REFERENCES `subjects` (`code`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
