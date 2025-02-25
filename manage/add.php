@@ -1,8 +1,10 @@
 
 <?php
 
-include('db_config.php');
+include('../organize/db_config.php');
 // Collect data from form
+include('../organize/header.php');
+if (isset($_POST['submit'])) {
 $english = $_POST['english'];
  $kiswahili = $_POST['kiswahili'];
 $maths = $_POST['maths'];
@@ -23,6 +25,7 @@ if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
+}
 }
 
 $conn->close();
@@ -49,6 +52,7 @@ $conn->close();
         h1 {
             text-align: center;
             padding: 20px;
+            margin-top: 90px;
             color: #444;
         }
 
@@ -58,6 +62,7 @@ $conn->close();
             margin: 30px auto;
             background-color: #fff;
             padding: 20px;
+           
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -113,7 +118,7 @@ $conn->close();
     </style>
 </head>
 <body>
-    <h1>Add Unit Details</h1>
+    <h1>Add Subject Details</h1>
     <div class="form-container">
         <form action="" method="POST">
             <label for="english">English:</label>
@@ -150,6 +155,10 @@ $conn->close();
             <input type="text" id="homescience" name="homescience" required><br>
 
             <input type="submit" value="Submit">
+
+            <br><br>
+            <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;"> Back
+            </a>
         </form>
     </div>
 </body>

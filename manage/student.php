@@ -139,6 +139,7 @@ $conn->close();
     <h1>Add Student</h1>
 
     <form action="" method="POST">
+        
         <label for="reg_no">Registration No:</label>
         <input type="text" name="reg_no" required>
 
@@ -180,6 +181,9 @@ $conn->close();
         </select>
 
         <input type="submit" name="submit" value="Add Student">
+        <br>
+        <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;"> Back
+        </a>
     </form>
 
 </body>

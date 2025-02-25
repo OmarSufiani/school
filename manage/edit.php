@@ -74,6 +74,7 @@ if (isset($_POST['add_student'])) {
     <?php if ($role == 'supperAdmin' || $role == 'admin') { ?>
         <!-- Add New Student Form -->
         <form action="" method="POST" class="mb-4">
+        
             <div class="mb-3">
                 <label for="first_name" class="form-label">First Name:</label>
                 <input type="text" class="form-control" id="first_name" name="first_name" required>
@@ -111,6 +112,9 @@ if (isset($_POST['add_student'])) {
                 <input type="text" class="form-control" id="phone_number" name="phone_number">
             </div>
             <button type="submit" name="add_student" class="btn btn-success">Add Student</button>
+            <br>
+            <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;"> Back
+        </a>
         </form>
     <?php } ?>
 
