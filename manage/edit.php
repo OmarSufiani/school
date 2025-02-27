@@ -71,7 +71,7 @@ if (isset($_POST['add_student'])) {
 
 <div class="container">
     <h2>Student Management</h2>
-    <?php if ($role == 'supperAdmin' || $role == 'admin') { ?>
+    <?php if ($role == 'supperAdmin' || $role == 'admin'   || $role == 'student') { ?>
         <!-- Add New Student Form -->
         <form action="" method="POST" class="mb-4">
         
