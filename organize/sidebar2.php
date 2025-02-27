@@ -194,7 +194,7 @@ $role = $_SESSION['role'];
                 <ul class="dropdown-menu" id="academics">
                     <li><a href="#">Subjects</a></li>
                     <li><a href="#">Curriculum</a></li>
-                    <li><a href="#">Exams</a></li>
+                    <li><a href="../academics/exam.php">Exams</a></li>
                 </ul>
             </li>
 
