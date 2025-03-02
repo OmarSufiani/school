@@ -20,14 +20,14 @@ header("Expires: 0"); // Expire immediately
 
 
 // Query to count the number of students
-$sql_students = "SELECT COUNT(*) AS students_count FROM students";
-$result_students = $conn->query($sql_students);
-$students = $result_students->fetch_assoc()['students_count'];
+$sql_all_students = "SELECT COUNT(*) AS all_students_count FROM all_students";
+$result_all_students = $conn->query($sql_all_students);
+$all_students = $result_all_students->fetch_assoc()['all_students_count'];
 
 // Query to count the number of accounts
-$sql_subjects = "SELECT COUNT(*) AS subjects_count FROM subjects";
-$result_subjects = $conn->query($sql_subjects);
-$subjects = $result_subjects->fetch_assoc()['subjects_count'];
+$sql_subject = "SELECT COUNT(*) AS subject_count FROM subject";
+$result_subject = $conn->query($sql_subject);
+$subject = $result_subject->fetch_assoc()['subject_count'];
 
 // Query to count the number of staff members
 $sql_teachers = "SELECT COUNT(*) AS teachers_count FROM accounts";
@@ -160,12 +160,12 @@ $users = $result_users->fetch_assoc()['user_count'];
     <div class="dashboard">
         <div class="box">
             <h3>Students</h3>
-            <p><?php echo $students; ?></p>
+            <p><?php echo $all_students; ?></p>
         </div>
 
         <div class="box2">
             <h3>Subjects Offered</h3>
-            <p><?php echo $subjects; ?></p>
+            <p><?php echo $subject; ?></p>
         </div>
 
         <div class="box3">

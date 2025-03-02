@@ -6,26 +6,23 @@ include('../organize/header.php');
 // Check if the form is submitted
 if (isset($_POST['submit'])) {
     // Get the form data
-    $reg_no = $_POST['reg_no'];
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $sEmail = $_POST['sEmail'];
-    $date_of_birth = $_POST['date_of_birth'];
+    $admno = $_POST['admno'];
+    $assno = $_POST['assno'];
+    $name = $_POST['name'];
+   
+    $stream = $_POST['stream'];
     $gender = $_POST['gender'];
-    $unitCode = $_POST['unitCode'];
-    $address = $_POST['address'];
-    $phone_number = $_POST['phone_number'];
-    $grade = $_POST['grade'];
-    $status = $_POST['status'];
+   
 
     // Prepare the SQL query to insert the data into the database
-    $query = "INSERT INTO students (reg_no, first_name, last_name, sEmail, date_of_birth, gender, unitCode, address, phone_number, grade, status)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO all_students (admno,assno,name, stream, gender)
+              VALUES (?, ?, ?, ?, ?)";
 
     // Prepare the statement
     if ($stmt = $conn->prepare($query)) {
         // Bind parameters to the prepared statement
-        $stmt->bind_param("sssssssssss", $reg_no, $first_name, $last_name, $sEmail, $date_of_birth, $gender, $unitCode, $address, $phone_number, $grade, $status);
+        $stmt->bind_param("sssss", $admno,$assno, $name, $stream,$gender);
+        
         
         // Execute the statement
         if ($stmt->execute()) {
@@ -140,45 +137,29 @@ $conn->close();
 
     <form action="" method="POST">
         
-        <label for="reg_no">Registration No:</label>
-        <input type="text" name="reg_no" required>
+        <label for="admno">Admission Number:</label>
+        <input type="text" name="admno" required>
+        
+        <label for="first_name">Ass/No:</label>
+        <input type="text" name="assno" required>
 
-        <label for="first_name">First Name:</label>
-        <input type="text" name="first_name" required>
+        <label for="name">Student_Name:</label>
+        <input type="text" name="name" required>
 
-        <label for="last_name">Last Name:</label>
-        <input type="text" name="last_name" required>
 
-        <label for="sEmail">Email:</label>
-        <input type="email" name="sEmail" required>
+        <label for="stream">Stream:</label>
+        <input type="text" name="stream" required>
 
-        <label for="date_of_birth">Date of Birth:</label>
-        <input type="date" name="date_of_birth" required>
+    
 
         <label for="gender">Gender:</label>
         <select name="gender" required>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-            <option value="Other">Other</option>
+    
         </select>
 
-        <label for="unitCode">Unit Code:</label>
-        <input type="text" name="unitCode" required>
-
-        <label for="address">Address:</label>
-        <textarea name="address"></textarea>
-
-        <label for="phone_number">Phone Number:</label>
-        <input type="text" name="phone_number">
-
-        <label for="grade">Grade:</label>
-        <input type="text" name="grade">
-
-        <label for="status">Status:</label>
-        <select name="status">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-        </select>
+       
 
         <input type="submit" name="submit" value="Add Student">
         <br>

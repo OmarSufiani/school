@@ -189,15 +189,16 @@ $role = $_SESSION['role'];
             <li><a href="../manage/student.php"><i class="fas fa-chalkboard-teacher"></i> Admission</a></li>
             
             <!-- Academics Dropdown -->
+            <?php if ($role == 'supperAdmin' || $role == 'admin'  || $role == 'student' ) { ?>
             <li>
                 <a href="javascript:void(0)" onclick="toggleDropdown('academics')"><i class="fas fa-book"></i> Academics <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu" id="academics">
                     <li><a href="#">Subjects</a></li>
-                    <li><a href="#">Curriculum</a></li>
+                    <li><a href="../">Curriculum</a></li>
                     <li><a href="../academics/exam.php">Exams</a></li>
                 </ul>
             </li>
-
+            <?php } ?>
             <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
         <?php } ?>
 

@@ -1,11 +1,12 @@
 <?php
-// Assuming you have a separate database connection file db_connection.php
+// Assuming you have a separate database connection file db_config.php
 include('../organize/db_config.php');
 include('../organize/header.php');
+
 // Check if the form is submitted
 if (isset($_POST['view_students'])) {
-    // Query to get all students from the database
-    $query = "SELECT * FROM students";
+    // Query to get all students from the all_students table
+    $query = "SELECT id, assno, admno, name, stream, gender FROM all_students";
     
     // Prepare and execute the query
     if ($result = $conn->query($query)) {
@@ -14,22 +15,17 @@ if (isset($_POST['view_students'])) {
             // Start the HTML table to display data
             echo "<h1>Student List</h1>";
             echo "<table border='1' cellpadding='10' cellspacing='0'>";
-            echo "<tr><th>Student ID</th><th>Registration No</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Date of Birth</th><th>Gender</th><th>Phone Number</th><th>Units</th><th>Status</th></tr>";
+            echo "<tr><th>Student ID</th><th>Admission Number</th><th>Ass. No</th><th>Student Name</th><th>Stream</th><th>Gender</th></tr>";
 
             // Fetch each row and display it in the table
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . $row['student_id'] . "</td>";
-                echo "<td>" . $row['reg_no'] . "</td>";
-                echo "<td>" . $row['first_name'] . "</td>";
-                echo "<td>" . $row['last_name'] . "</td>";
-                echo "<td>" . $row['sEmail'] . "</td>";
-                echo "<td>" . $row['date_of_birth'] . "</td>";
-                echo "<td>" . $row['gender'] . "</td>";
-                
-                echo "<td>" . $row['phone_number'] . "</td>";
-                echo "<td>" . $row['units'] . "</td>";
-                echo "<td>" . $row['status'] . "</td>";
+                echo "<td>" . $row['id'] . "</td>";            // Displaying student ID
+                echo "<td>" . $row['admno'] . "</td>";          // Displaying admission number
+                echo "<td>" . $row['assno'] . "</td>";          // Displaying assigned number
+                echo "<td>" . $row['name'] . "</td>";           // Displaying student name
+                echo "<td>" . $row['stream'] . "</td>";         // Displaying stream
+                echo "<td>" . $row['gender'] . "</td>";         // Displaying gender
                 echo "</tr>";
             }
 
@@ -127,6 +123,8 @@ $conn->close();
 
 <!-- Form to trigger the view action -->
 <form action="" method="POST">
+<a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Go Back
+</a>
     <input type="submit" name="view_students" value="View All Students">
 </form>
 

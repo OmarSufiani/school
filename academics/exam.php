@@ -5,16 +5,25 @@ session_start();
 // Include your database connection file
 include('../organize/db_config.php'); // Assuming you have a file to handle DB connection
 include('../organize/header.php');
-
-// Check if user ID is set in session
+// Check if the user is logged in (session check for user_id)
 if (!isset($_SESSION['user_id'])) {
     die('Student not logged in.');
 }
 
-$user_id = $_SESSION['user_id']; // Get the student ID from the session
+// Initialize variables
+$sAdmno = '';
 
-// Query to fetch all subjects (exam results) for the student, including registration number
-$query = "SELECT * FROM academics WHERE std_id = ?"; // Assuming 'academics' is your table
+// Check if the search form was submitted and get the admission number
+if (isset($_POST['search'])) {
+    $sAdmno = $_POST['sAdmno'];  // Get the admission number from the input
+}
+
+// Query to fetch exam details by admission number
+if ($sAdmno != '') {
+    $query = "SELECT * FROM exam WHERE sAdmno = ?";  // Modify to search by sAdmno
+} else {
+    $query = "SELECT * FROM exam";  // Default query to fetch all results
+}
 
 // Prepare the query
 $stmt = $conn->prepare($query);
@@ -24,8 +33,10 @@ if ($stmt === false) {
     die('Error preparing the query: ' . $conn->error);
 }
 
-// Bind the user ID to the prepared statement
-$stmt->bind_param('i', $user_id); // Ensure user_id is an integer
+// Bind the sAdmno to the prepared statement (if the user is searching)
+if ($sAdmno != '') {
+    $stmt->bind_param('s', $sAdmno);  // Ensure sAdmno is treated as a string
+}
 
 // Execute the query
 $stmt->execute();
@@ -37,24 +48,28 @@ $result = $stmt->get_result();
 function downloadCSV($result) {
     // Open a file in write mode
     header('Content-Type: text/csv');
-    header('Content-Disposition: attachment;filename=subjects_results.csv');
+    header('Content-Disposition: attachment;filename=exam_results.csv');
 
     // Create file pointer connected to the output stream
     $output = fopen('php://output', 'w');
     
-    // Column headings (now including REG.NO)
-    $columns = ['REG.NO', 'Course Name', 'Score', 'Grade', 'Semester', 'Year'];
+    // Column headings (now including all the new fields)
+    $columns = ['ID', 'Adm No', 'Year', 'Exam', 'Term', 'Class', 'Student Name', 'Score', 'Comment', 'Grade'];
     fputcsv($output, $columns);
 
     // Add the student's exam data to the CSV
     while ($row = $result->fetch_assoc()) {
         $data = [
-            $row['student_regno'], // Assuming 'student_regno' is the registration number column
-            $row['course_name'],
+            $row['id'],
+            $row['sAdmno'],
+            $row['year'],
+            $row['exam'],
+            $row['term'],
+            $row['class'],
+            $row['sName'],
             $row['score'],
-            $row['grade'],
-            $row['semester'],
-            $row['year']
+            $row['comment'],
+            $row['grade']
         ];
         fputcsv($output, $data);
     }
@@ -69,12 +84,13 @@ if (isset($_POST['download'])) {
     downloadCSV($result);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Subject Results</title>
+    <title>Exam Results</title>
     <!-- Include Bootstrap or your preferred CSS for styling -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -96,41 +112,61 @@ if (isset($_POST['download'])) {
     <div class="form-container">
         <h2 class="mt-5 text-center">Exam Results</h2>
 
-        <!-- Form to display subject results -->
+        <!-- Search Form to find results by Admission Number -->
         <form action="" method="post">
-            <?php if ($result->num_rows > 0): ?>
-                <!-- Table to display the results -->
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>REG.NO</th>
-                            <th>Course Name</th>
-                            <th>Score</th>
-                            <th>Grade</th>
-                            <th>Semester</th>
-                            <th>Year</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($row = $result->fetch_assoc()): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($row['student_regno']); ?></td> <!-- Display Registration Number -->
-                                <td><?php echo htmlspecialchars($row['course_name']); ?></td>
-                                <td><?php echo htmlspecialchars($row['score']); ?></td>
-                                <td><?php echo htmlspecialchars($row['grade']); ?></td>
-                                <td><?php echo htmlspecialchars($row['semester']); ?></td>
-                                <td><?php echo htmlspecialchars($row['year']); ?></td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-
-                <!-- Download button -->
-                <button type="submit" name="download" class="btn btn-success mt-3">Download Results (CSV)</button>
-            <?php else: ?>
-                <p>No exam results available for this student.</p>
-            <?php endif; ?>
+            <div class="form-group">
+                <label for="sAdmno">Enter Admission Number:</label>
+                <input type="text" class="form-control" id="sAdmno" name="sAdmno" value="<?php echo htmlspecialchars($sAdmno); ?>" required>
+            </div>
+            <button type="submit" name="search" class="btn btn-primary">Search</button>
         </form>
+
+        <!-- Display Exam Results -->
+        <?php if ($result->num_rows > 0): ?>
+            <!-- Table to display the results -->
+            <table class="table table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        
+                        <th>Year</th>
+                        <th>Exam</th>
+                        <th>Term</th>
+                        <th>Class</th>
+                        <th>Student Name</th>
+                        <th>Score</th>
+                        <th>Comment</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['id']); ?></td>
+                           
+                            <td><?php echo htmlspecialchars($row['year']); ?></td>
+                            <td><?php echo htmlspecialchars($row['exam']); ?></td>
+                            <td><?php echo htmlspecialchars($row['term']); ?></td>
+                            <td><?php echo htmlspecialchars($row['class']); ?></td>
+                            <td><?php echo htmlspecialchars($row['sName']); ?></td>
+                            <td><?php echo htmlspecialchars($row['score']); ?></td>
+                            <td><?php echo htmlspecialchars($row['comment']); ?></td>
+                            <td><?php echo htmlspecialchars($row['grade']); ?></td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+
+            <!-- Download button -->
+            <form action="" method="post">
+                <button type="submit" name="download" class="btn btn-success mt-3">Download Results (CSV)</button>
+            </form>
+
+            <br>
+            <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Back</a>
+        <?php else: ?>
+            <p>No exam results found for this Admission Number.</p>
+        <?php endif; ?>
     </div>
 </div>
 
