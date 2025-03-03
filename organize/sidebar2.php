@@ -152,7 +152,15 @@ $role = $_SESSION['role'];
         <?php } ?>
 
         <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'student') { ?>
-            <li><a href="../manage/edit.php"><i class="fas fa-user-graduate"></i> Students</a></li>
+            <li>
+                <a href="javascript:void(0)" onclick="toggleDropdown('students')"><i class="fas fa-user-graduate"></i> Students <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown-menu" id="students">
+                    <li><a href="../manage/view.php">View Students</a></li>
+                    <li><a href="../manage/edit.php">Update students</a></li>
+                    <li><a href="../manage/add.php">Add students</a></li>
+                </ul>
+            </li>
+            
         <?php } ?>
 
         <?php if ($role == 'supperAdmin' || $role == 'admin' || $role == 'staff') { ?>
@@ -193,8 +201,8 @@ $role = $_SESSION['role'];
             <li>
                 <a href="javascript:void(0)" onclick="toggleDropdown('academics')"><i class="fas fa-book"></i> Academics <i class="fas fa-chevron-down"></i></a>
                 <ul class="dropdown-menu" id="academics">
-                    <li><a href="#">Subjects</a></li>
-                    <li><a href="../">Curriculum</a></li>
+                    <li><a href="../manage/edit.php">Subjects</a></li>
+                    <li><a href="../manage/student.php">Curriculum</a></li>
                     <li><a href="../academics/exam.php">Exams</a></li>
                 </ul>
             </li>

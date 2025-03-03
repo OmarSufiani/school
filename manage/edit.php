@@ -1,54 +1,65 @@
 <?php
-include('../organize/db_config.php'); // Database connection file
-include('../organize/header.php');
-$role = $_SESSION['role']; 
+// Assuming you have a separate database connection file db_connection.php
+include('../organize/db_config.php');
 
-// Retrieve students from the database
-$query = "SELECT * FROM students";
-$result = mysqli_query($conn, $query);
+// Define a variable to track if we should show the edit form
+$show_edit_form = false;
+$student = null;
 
-// Handle delete operation
-if (isset($_GET['delete_id'])) {
-    $delete_id = $_GET['delete_id'];
-    $delete_query = "DELETE FROM students WHERE student_id = $delete_id";
-    mysqli_query($conn, $delete_query);
-    header("Location: edit.php");
-    exit();
+// Check if admno is submitted via POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['admno'])) {
+    // Get the admno from POST request
+    $admno = $_POST['admno'];
+
+    // Fetch student data for editing
+    $query = "SELECT admno, assno, name, stream, gender FROM all_students WHERE admno = ?";
+
+    if ($stmt = $conn->prepare($query)) {
+        $stmt->bind_param("s", $admno); // Bind the admno parameter
+
+        $stmt->execute();
+        // Make sure to match the number of columns returned by the query
+        $stmt->bind_result($db_admno, $db_assno, $db_name, $db_stream, $db_gender);
+
+        // Fetch the result
+        if ($stmt->fetch()) {
+            $student = [
+                'admno' => $db_admno,
+                'assno' => $db_assno,
+                'name' => $db_name,
+                'stream' => $db_stream,
+                'gender' => $db_gender
+            ];
+            $show_edit_form = true; // Show the edit form if student is found
+        }
+
+        $stmt->close();
+    }
 }
 
-// Handle editing a student
-if (isset($_POST['edit_student'])) {
-    $id = $_POST['id'];
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $sEmail = $_POST['sEmail'];
-    $date_of_birth = $_POST['date_of_birth'];
+// Update student details if form is submitted
+if ($show_edit_form && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
+    // Get the updated data from the form
+    $assno = $_POST['assno'];
+    $name = $_POST['name'];
+    $stream = $_POST['stream'];
     $gender = $_POST['gender'];
-    $subject = $_POST['subject'];
-    $address = $_POST['address'];
-    $phone_number = $_POST['phone_number'];
 
-    $edit_query = "UPDATE students SET first_name='$first_name', last_name='$last_name', sEmail='$sEmail', date_of_birth='$date_of_birth', gender='$gender', subject=$subject, address='$address', phone_number='$phone_number' WHERE student_id=$id";
-    mysqli_query($conn, $edit_query);
-    header("Location: edit.php");
-    exit();
-}
+    // Update the student record in the database
+    $updateQuery = "UPDATE all_students SET assno = ?, name = ?, stream = ?, gender = ? WHERE admno = ?";
 
-// Handle form submission for adding a new student
-if (isset($_POST['add_student'])) {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $sEmail = $_POST['sEmail'];
-    $date_of_birth = $_POST['date_of_birth'];
-    $gender = $_POST['gender'];
-    $subject = $_POST['subject'];
-    $address = $_POST['address'];
-    $phone_number = $_POST['phone_number'];
+    if ($stmt = $conn->prepare($updateQuery)) {
+        $stmt->bind_param("sssss", $assno, $name, $stream, $gender, $admno);
+        if ($stmt->execute()) {
+            echo "<p class='success'>Student updated successfully!</p>";
+        } else {
+            echo "<p class='error'>Error: " . $stmt->error . "</p>";
+        }
+        $stmt->close();
+    }
 
-    $insert_query = "INSERT INTO students (first_name, last_name, sEmail, date_of_birth, gender, subject, address, phone_number) VALUES ('$first_name', '$last_name', '$sEmail', '$date_of_birth', '$gender', $subject, '$address', '$phone_number')";
-    mysqli_query($conn, $insert_query);
-    header("Location: edit.php");
-    exit();
+    // Close the connection
+    $conn->close();
 }
 ?>
 
@@ -57,152 +68,140 @@ if (isset($_POST['add_student'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Management</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Edit Student</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Form Styling */
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="submit"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .success {
+            color: green;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .cancel-btn {
+            background-color: #ff3b30;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #ff1e1a;
+        }
+    </style>
 </head>
-
-<style>
-.container {
-    margin-top: 90px;
-}
-</style>
-
 <body>
 
-<div class="container">
-    <h2>Student Management</h2>
-    <?php if ($role == 'supperAdmin' || $role == 'admin'   || $role == 'student') { ?>
-        <!-- Add New Student Form -->
-        <form action="" method="POST" class="mb-4">
+<h1>Edit Student Details</h1>
+
+<?php if (!$show_edit_form): ?>
+    <!-- Form to Enter Admission Number (admno) -->
+    <form action="" method="POST">
+        <label for="admno">Enter Admission Number:</label>
+        <input type="text" name="admno" required>
+
+        <input type="submit" value="Search Student">
         
-            <div class="mb-3">
-                <label for="first_name" class="form-label">First Name:</label>
-                <input type="text" class="form-control" id="first_name" name="first_name" required>
-            </div>
-            <div class="mb-3">
-                <label for="last_name" class="form-label">Last Name:</label>
-                <input type="text" class="form-control" id="last_name" name="last_name" required>
-            </div>
-            <div class="mb-3">
-                <label for="sEmail" class="form-label">Email:</label>
-                <input type="email" class="form-control" id="sEmail" name="sEmail" required>
-            </div>
-            <div class="mb-3">
-                <label for="date_of_birth" class="form-label">Date of Birth:</label>
-                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
-            </div>
-            <div class="mb-3">
-                <label for="gender" class="form-label">Gender:</label>
-                <select class="form-select" id="gender" name="gender" required>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="subject" class="form-label">Subject:</label>
-                <input type="number" class="form-control" id="subject" name="subject" required>
-            </div>
-            <div class="mb-3">
-                <label for="address" class="form-label">Address:</label>
-                <textarea class="form-control" id="address" name="address"></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="phone_number" class="form-label">Phone Number:</label>
-                <input type="text" class="form-control" id="phone_number" name="phone_number">
-            </div>
-            <button type="submit" name="add_student" class="btn btn-success">Add Student</button>
-            <br>
-            <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;"> Back
-        </a>
-        </form>
-    <?php } ?>
+        <br>
+        <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Back</a>
+    </form>
+<?php elseif ($student): ?>
+    <!-- Form to Edit Student Details -->
+    <form action="" method="POST">
+        <label for="assno">Ass/No:</label>
+        <input type="text" name="assno" value="<?php echo $student['assno']; ?>" required>
 
-    <!-- Students List -->
-    <h3>List of Students</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Age</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while ($student = mysqli_fetch_assoc($result)) { ?>
-                <tr>
-                    <td><?php echo $student['student_id']; ?></td>
-                    <td><?php echo $student['first_name']; ?></td>
-                    <td><?php echo $student['last_name']; ?></td>
-                    <td><?php echo $student['sEmail']; ?></td>
-                    <td><?php echo $student['date_of_birth']; ?></td>
-                    <td>
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $student['student_id']; ?>">Edit</button>
-                        <a href="?delete_id=<?php echo $student['student_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this student?')">Delete</a>
-                    </td>
-                </tr>
+        <label for="name">Student Name:</label>
+        <input type="text" name="name" value="<?php echo $student['name']; ?>" required>
 
-                <!-- Edit Modal -->
-                <div class="modal fade" id="editModal<?php echo $student['student_id']; ?>" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="" method="POST">
-                                    <input type="hidden" name="id" value="<?php echo $student['student_id']; ?>">
-                                    <div class="mb-3">
-                                        <label for="first_name" class="form-label">First Name:</label>
-                                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $student['first_name']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="last_name" class="form-label">Last Name:</label>
-                                        <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $student['last_name']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="sEmail" class="form-label">Email:</label>
-                                        <input type="email" class="form-control" id="sEmail" name="sEmail" value="<?php echo $student['sEmail']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="date_of_birth" class="form-label">Date of Birth:</label>
-                                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<?php echo $student['date_of_birth']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="gender" class="form-label">Gender:</label>
-                                        <select class="form-select" id="gender" name="gender" required>
-                                            <option value="Male" <?php if ($student['gender'] == 'Male') echo 'selected'; ?>>Male</option>
-                                            <option value="Female" <?php if ($student['gender'] == 'Female') echo 'selected'; ?>>Female</option>
-                                            <option value="Other" <?php if ($student['gender'] == 'Other') echo 'selected'; ?>>Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="subject" class="form-label">Subject:</label>
-                                        <input type="number" class="form-control" id="subject" name="subject" value="<?php echo $student['subject']; ?>" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="address" class="form-label">Address:</label>
-                                        <textarea class="form-control" id="address" name="address"><?php echo $student['address']; ?></textarea>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="phone_number" class="form-label">Phone Number:</label>
-                                        <input type="text" class="form-control" id="phone_number" name="phone_number" value="<?php echo $student['phone_number']; ?>">
-                                    </div>
-                                    <button type="submit" name="edit_student" class="btn btn-primary">Update Student</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <?php } ?>
-        </tbody>
-    </table>
-</div>
+        <label for="stream">Stream:</label>
+        <input type="text" name="stream" value="<?php echo $student['stream']; ?>" required>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <label for="gender">Gender:</label>
+        <select name="gender" required>
+            <option value="Male" <?php echo $student['gender'] == 'Male' ? 'selected' : ''; ?>>Male</option>
+            <option value="Female" <?php echo $student['gender'] == 'Female' ? 'selected' : ''; ?>>Female</option>
+        </select>
+
+        <input type="hidden" name="admno" value="<?php echo $student['admno']; ?>">
+        <input type="submit" name="update" value="Update Student">
+        
+        <br>
+        <a href="javascript:window.history.back();" class="cancel-btn">Cancel</a> <!-- Cancel Button to go back -->
+    </form>
+<?php else: ?>
+    <p>Student not found!</p>
+<?php endif; ?>
+
 </body>
 </html>

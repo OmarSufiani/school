@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errorMessage = 'Invalid email format!';
     } elseif ($password !== $confirm_password) {
         $errorMessage = 'Passwords do not match!';
-    } elseif (strlen($password) < 6) { // Password strength validation (minimum 6 characters)
+    } elseif (strlen($password) < 4) { // Password strength validation (minimum 6 characters)
         $errorMessage = 'Password should be at least 6 characters!';
     }
 

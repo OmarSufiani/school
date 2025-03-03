@@ -133,7 +133,7 @@ $conn->close();
 </head>
 <body>
 
-    <h1>Add Student</h1>
+    <h1>Register New Student</h1>
 
     <form action="" method="POST">
         
@@ -161,7 +161,7 @@ $conn->close();
 
        
 
-        <input type="submit" name="submit" value="Add Student">
+        <input type="submit" name="submit" value="Submit">
         <br>
         <a href="../organize/homepage.php" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;"> Back
         </a>
